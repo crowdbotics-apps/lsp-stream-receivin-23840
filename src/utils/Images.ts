@@ -1,5 +1,4 @@
 export default {
-	MENU_ICON: require('../../assets/images/menu.png'),
 	SETTINGS_ICON: require('../../assets/images/settings.png'),
 	FLASH_ICON: require('../../assets/images/flash.png'),
 	SHOP_ICON: require('../../assets/images/shop.png'),
@@ -9,4 +8,10 @@ export default {
 	CHECKBOX_OFF_ICON: require('../../assets/images/checkbox_off.png'),
 	CHECKBOX_ICON: require('../../assets/images/checkbox.png'),
 	LOGOUT_ICON: require('../../assets/images/logout.png'),
+	MENU_ICON: require('../../assets/images/menu.png'),
+	CART_ICON: require('../../assets/images/cart.png'),
+	IMAGE_ICON: require('../../assets/images/image.png'),
+	BUY_ICON: require('../../assets/images/buy.png'),
+	INFO_ICON: require('../../assets/images/info.png'),
+	PLACE_HOLDER_IMAGE: require('../../assets/images/placeHolder.png'),
 }

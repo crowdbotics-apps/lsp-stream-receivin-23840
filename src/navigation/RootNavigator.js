@@ -31,12 +31,7 @@ const RootNavigator = () => {
 					name={routes.HOME}
 					component={Home}
 					options={{
-						title: 'Live Stream',
-						headerTintColor: '#fff',
-						headerStyle: {
-							borderBottomColor: '#D73776',
-							backgroundColor: '#D73776',
-						},
+						headerShown: false
 					}}
 				/>
 				<Stack.Screen
