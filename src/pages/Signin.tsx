@@ -30,10 +30,10 @@ export default function Signin({navigation}) {
 				</View>
 				<View style={{justifyContent: 'center', alignItems: 'center', flexGrow: 0.3}}>
 					<View style={{flexDirection: 'row'}}>
-						<Text style={{fontSize: 24, fontFamily: 'Barlow', fontWeight: '400'}}>Welcome to </Text>
-						<Text style={{fontSize: 24, fontFamily: 'Barlow', fontWeight: '700'}}>Live Stream</Text>
+						<Text style={{fontSize: 24, fontWeight: '400'}}>Welcome to </Text>
+						<Text style={{fontSize: 24, fontWeight: '700'}}>Live Stream</Text>
 					</View>
-					<Text style={{fontSize: 18, fontFamily: 'Barlow'}}>Sign In</Text>
+					<Text style={{fontSize: 18}}>Sign In</Text>
 				</View>
 				<View style={styles.buttonContainer}>
 					{loading ? <ActivityIndicator animating={true} color={Colors.Pink}/> :
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
 	buttonText: {
 		color: Colors.White,
 		textAlign: 'center',
-		fontFamily: 'Roboto',
+		// fontFamily: 'Roboto',
 		fontSize: 16,
 		fontWeight: 'bold'
 	},
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
 		color: '#c4c4c4'
 	},
 	inputText: {
-		fontFamily: 'Roboto',
+		// fontFamily: 'Roboto',
 		fontWeight: '400',
 		fontSize: 18,
 		color: '#464646',
