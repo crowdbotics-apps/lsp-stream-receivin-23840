@@ -20,64 +20,13 @@ import {
 import routes from '../navigation/routes';
 import {logout} from '../api/auth';
 import Images from '../utils/Images';
-import StreamListItem from '../components/StreamListItem';
 import ProductDetailDialog from '../components/ProductDetailDialog';
-import {FlatList} from 'react-native-gesture-handler';
-import {useLazyQuery, useMutation} from '@apollo/client'
 import DialogManager, {DialogComponent, DialogContent, ScaleAnimation, SlideAnimation} from "react-native-dialog-component";
-import {
-	GET_SHOP_ID,
-	GET_LIVE_SALES_EVENTS,
-	CREATE_INGEST_SERVER
-} from '../api/queries';
 import Colors from '../utils/Colors';
 
-const pushserver = 'rtmp://3580eb.entrypoint.cloud.wowza.com/app-T2c38TX8/';
-const stream = 'ea0c69ca';
-
-const RESOLUTIONS = [
-	{
-		label: '540',
-		preset: 3,
-	},
-	{
-		label: '720',
-		preset: 4,
-	},
-	{
-		label: '1080',
-		preset: 5,
-	},
-];
 
 export default function HomeScreen({navigation}) {
 
-	const cameraRef = useRef();
-	const [isRightMenuActive, setIsRightMenuActive] = useState(false);
-	const [isLeftMenuActive, setIsLeftMenuActive] = useState(false);
-	const [isBottomMenuActive, setIsBottomMenuActive] = useState(false);
-	const [isStopModalVisible, setIsStopModalVisible] = useState(false);
-	const [expandedStreamId, setExpandedStreamId] = useState(0);
-	const [getShopId, shopIdResponse] = useLazyQuery(GET_SHOP_ID);
-	const [getLiveSales, liveSalesResponse] = useLazyQuery(GET_LIVE_SALES_EVENTS);
-	const [createIngestServer, createIngestServerResponse] = useMutation(CREATE_INGEST_SERVER);
-
-	const [options, setOptions] = useState({
-		sound: true,
-		resolution: RESOLUTIONS[RESOLUTIONS.length - 1],
-	});
-
-
-	const setResolution = (resolution) => {
-		setOptions({
-			...options,
-			resolution,
-		});
-	};
-
-	const stopStream = () => {
-		setIsStopModalVisible(false);
-	};
 
 	const handleLogout = () => {
 		const completion = () => {
@@ -87,81 +36,6 @@ export default function HomeScreen({navigation}) {
 		logout()
 			.then(completion)
 			.catch(completion)
-	}
-
-	const showMyStreams = () => {
-		LayoutAnimation.easeInEaseOut();
-		setIsRightMenuActive(false)
-		setIsLeftMenuActive(false)
-		setIsBottomMenuActive(!isBottomMenuActive)
-	}
-
-	useLayoutEffect(() => {
-		navigation.setOptions({
-			headerLeft: () => (
-				<NavigationButton
-					onPress={() => {
-						setIsLeftMenuActive(!isLeftMenuActive);
-						setIsRightMenuActive(false);
-						setIsBottomMenuActive(false);
-					}}
-					iconSource={Images.MENU_ICON}
-					active={isLeftMenuActive}
-				/>
-			),
-			headerRight: () => (
-				<NavigationButton
-					onPress={() => {
-						setIsRightMenuActive(!isRightMenuActive);
-						setIsLeftMenuActive(false);
-						setIsBottomMenuActive(false);
-					}}
-					iconSource={Images.SETTINGS_ICON}
-					active={isRightMenuActive}
-				/>
-			),
-		});
-	}, [navigation, isLeftMenuActive, isRightMenuActive]);
-
-	useEffect(() => {
-		getShopId()
-	}, [])
-
-	useEffect(() => {
-		if (shopIdResponse.data && shopIdResponse.data.primaryShopId) {
-			getLiveSales({variables: {shopId: shopIdResponse.data.primaryShopId}})
-		}
-	}, [shopIdResponse])
-
-	const renderBottomMenuItem = ({item}) => {
-		const onStart = () => {
-			console.log("Starting Ingest server with ID: ", item.id)
-			// const params = {
-			//     input: {
-			//         shopId: shopIdResponse.data.primaryShopId
-			//     }
-			// }
-			// createIngestServer({ variables: params })
-			// console.log("Create Ingest Server Response: ", createIngestServerResponse.data)
-		}
-
-		return <StreamListItem
-			onPress={() => {
-				expandedStreamId === item.id ? setExpandedStreamId(0) : setExpandedStreamId(item.id)
-			}}
-			date={item.date}
-			time={item.time}
-			isExpanded={expandedStreamId == item.id}
-			onStart={onStart}
-		/>
-	};
-
-	if (shopIdResponse.loading) {
-		return <ActivityIndicator size="large" color={Colors.PINK}/>
-	} else if (shopIdResponse.data && shopIdResponse.data.primaryShopId) {
-		console.log("SHOP ID: ", shopIdResponse.data)
-		console.log("LIVE SALES: ", liveSalesResponse)
-		console.log("LIVE SALES ERROR: ", liveSalesResponse.error)
 	}
 
 	const showImagesDialog = () => {
@@ -239,8 +113,8 @@ export default function HomeScreen({navigation}) {
 			</View>
 
 		</View>
-
 	);
+
 }
 
 const styles = StyleSheet.create({
