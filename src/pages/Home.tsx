@@ -17,148 +17,16 @@ import {
 	Alert,
 	ActivityIndicator,
 } from 'react-native';
-import {NodeCameraView} from 'react-native-nodemediaclient';
-import moment from 'moment';
-import StopConfirmationModal from '../components/StopConfirmationModal';
 import routes from '../navigation/routes';
 import {logout} from '../api/auth';
 import Images from '../utils/Images';
-import MenuItem from '../components/MenuItem';
-import StreamListItem from '../components/StreamListItem';
-import {FlatList} from 'react-native-gesture-handler';
-import {useLazyQuery, useMutation} from '@apollo/client'
-import {
-	GET_SHOP_ID,
-	GET_LIVE_SALES_EVENTS,
-	CREATE_INGEST_SERVER
-} from '../api/queries';
+import ProductDetailDialog from '../components/ProductDetailDialog';
+import DialogManager, {DialogComponent, DialogContent, ScaleAnimation, SlideAnimation} from "react-native-dialog-component";
 import Colors from '../utils/Colors';
 
-const pushserver = 'rtmp://3580eb.entrypoint.cloud.wowza.com/app-T2c38TX8/';
-const stream = 'ea0c69ca';
-
-/*
-   public static final int VIDEO_PPRESET_16X9_540 = 3;
-    public static final int VIDEO_PPRESET_16X9_720 = 4;
-    public static final int VIDEO_PPRESET_16X9_1080 = 5;
-*/
-const RESOLUTIONS = [
-	{
-		label: '540',
-		preset: 3,
-	},
-	{
-		label: '720',
-		preset: 4,
-	},
-	{
-		label: '1080',
-		preset: 5,
-	},
-];
-
-const formatSeconds = (seconds) =>
-	moment.utc(moment.duration(seconds, 'seconds').as('milliseconds'))
-		.format(seconds >= 3600 ? 'HH:mm:ss' : 'mm:ss');
-
-const NavigationButton = ({onPress, iconSource, active}) => (
-	<TouchableOpacity
-		onPress={onPress}
-		style={[styles.navButton, active ? styles.navButtonActive : undefined]}>
-		<Image source={iconSource} style={styles.navButtonImg}/>
-	</TouchableOpacity>
-);
-
-const RecordingTime = ({recordStartTime}) => {
-	const [recordingTime, setRecordingTime] = useState();
-
-	useEffect(() => {
-		if (!recordStartTime) {
-			return;
-		}
-		const updateDuration = () => {
-			const seconds = (Date.now() - recordStartTime) / 1000;
-			setRecordingTime(formatSeconds(seconds || 0));
-		};
-		updateDuration();
-		const i = setInterval(updateDuration, 1000);
-		return function cleanup() {
-			if (i) {
-				clearInterval(i);
-			}
-		};
-	}, [recordStartTime]);
-	return recordStartTime ? (
-		<Text style={styles.recordingTime}>{recordingTime}</Text>
-	) : null;
-};
 
 export default function HomeScreen({navigation}) {
 
-	const cameraRef = useRef();
-	const [isRecording, setIsRecording] = useState(false);
-	const [recordStartTime, setRecordStartTime] = useState(0);
-	const [isRightMenuActive, setIsRightMenuActive] = useState(false);
-	const [isLeftMenuActive, setIsLeftMenuActive] = useState(false);
-	const [isBottomMenuActive, setIsBottomMenuActive] = useState(false);
-	const [isStopModalVisible, setIsStopModalVisible] = useState(false);
-	const [expandedStreamId, setExpandedStreamId] = useState(0);
-	const [getShopId, shopIdResponse] = useLazyQuery(GET_SHOP_ID);
-	const [getLiveSales, liveSalesResponse] = useLazyQuery(GET_LIVE_SALES_EVENTS);
-	const [createIngestServer, createIngestServerResponse] = useMutation(CREATE_INGEST_SERVER);
-
-	const [options, setOptions] = useState({
-		sound: true,
-		flash: false,
-		backCamera: false,
-		resolution: RESOLUTIONS[RESOLUTIONS.length - 1],
-	});
-
-	const toggleOption = (option: any) => {
-		console.log('toggleOption');
-		if (option === 'backCamera' && options.backCamera) {
-			// switch off flash state when switching to front camera
-			setOptions({
-				...options,
-				flash: false,
-				[option]: !options[option],
-			});
-		} else {
-			setOptions({
-				...options,
-				[option]: !options[option],
-			});
-		}
-	};
-
-	const setResolution = (resolution) => {
-		setOptions({
-			...options,
-			resolution,
-		});
-	};
-
-	const toggleStream = () => {
-		console.log('toggleStream', isRecording);
-		setIsLeftMenuActive(false);
-		setIsRightMenuActive(false);
-		setIsBottomMenuActive(false);
-		LayoutAnimation.easeInEaseOut();
-		if (isRecording) {
-			setIsStopModalVisible(true);
-		} else {
-			setIsRecording(true);
-			setRecordStartTime(Date.now());
-			cameraRef.current && cameraRef.current.start();
-		}
-	};
-
-	const stopStream = () => {
-		setIsRecording(false);
-		setRecordStartTime(0);
-		setIsStopModalVisible(false);
-		cameraRef.current && cameraRef.current.stop();
-	};
 
 	const handleLogout = () => {
 		const completion = () => {
@@ -170,235 +38,154 @@ export default function HomeScreen({navigation}) {
 			.catch(completion)
 	}
 
-	const showMyStreams = () => {
-		LayoutAnimation.easeInEaseOut();
-		setIsRightMenuActive(false)
-		setIsLeftMenuActive(false)
-		setIsBottomMenuActive(!isBottomMenuActive)
-	}
-
-	useLayoutEffect(() => {
-		navigation.setOptions({
-			headerLeft: () => (
-				<NavigationButton
-					onPress={() => {
-						setIsLeftMenuActive(!isLeftMenuActive);
-						setIsRightMenuActive(false);
-						setIsBottomMenuActive(false);
-					}}
-					iconSource={Images.MENU_ICON}
-					active={isLeftMenuActive}
-				/>
+	const showImagesDialog = () => {
+		let config = {
+			animationDuration: 200,
+			ScaleAnimation: new ScaleAnimation(),
+			dialogAnimation: new SlideAnimation({slideFrom: 'bottom'}),
+			dialogStyle: [{padding: 0, borderRadius: 14, width: '90%', height: '45%', margin: 10,}],
+			children: (
+				<DialogContent style={{height: '100%', marginHorizontal: 0, padding: 0}}>
+					<ProductDetailDialog/>
+				</DialogContent>
 			),
-			headerRight: () => (
-				<NavigationButton
-					onPress={() => {
-						setIsRightMenuActive(!isRightMenuActive);
-						setIsLeftMenuActive(false);
-						setIsBottomMenuActive(false);
-					}}
-					iconSource={Images.SETTINGS_ICON}
-					active={isRightMenuActive}
-				/>
-			),
+		};
+		DialogManager.show(config, () => {
+			console.log('callback - update dialog');
 		});
-	}, [navigation, isLeftMenuActive, isRightMenuActive]);
-
-	useEffect(() => {
-		getShopId()
-	}, [])
-
-	useEffect(() => {
-		if (shopIdResponse.data && shopIdResponse.data.primaryShopId) {
-			getLiveSales({variables: {shopId: shopIdResponse.data.primaryShopId}})
-		}
-	}, [shopIdResponse])
-
-	const renderBottomMenuItem = ({item}) => {
-		const onStart = () => {
-			console.log("Starting Ingest server with ID: ", item.id)
-			// const params = {
-			//     input: {
-			//         shopId: shopIdResponse.data.primaryShopId
-			//     }
-			// }
-			// createIngestServer({ variables: params })
-			// console.log("Create Ingest Server Response: ", createIngestServerResponse.data)
-		}
-
-		return <StreamListItem
-			onPress={() => {
-				expandedStreamId === item.id ? setExpandedStreamId(0) : setExpandedStreamId(item.id)
-			}}
-			date={item.date}
-			time={item.time}
-			isExpanded={expandedStreamId == item.id}
-			onStart={onStart}
-		/>
-	};
-
-	if (shopIdResponse.loading) {
-		return <ActivityIndicator size="large" color={Colors.Pink}/>
-	} else if (shopIdResponse.data && shopIdResponse.data.primaryShopId) {
-		console.log("SHOP ID: ", shopIdResponse.data)
-		console.log("LIVE SALES: ", liveSalesResponse)
-		console.log("LIVE SALES ERROR: ", liveSalesResponse.error)
 	}
 
 	return (
-		<TouchableWithoutFeedback
-			onPress={() => {
-				setIsLeftMenuActive(false);
-				setIsRightMenuActive(false);
-				setIsBottomMenuActive(false);
-			}}>
-			<View style={styles.container}>
-				<NodeCameraView
-					style={{flex: 1}}
-					ref={cameraRef}
-					outputUrl={pushserver + stream}
-					/*
+		<View style={styles.container}>
 
-										camera={{ cameraId: 1, cameraFrontMirror: true }}
-					audio={{ bitrate: 32000, profile: 1, samplerate: 44100 }}
-					video={{ preset: 1, bitrate: 500000, profile: 1, fps: 15, videoFrontMirror: false }}
-					smoothSkinLevel={3}
+			<View style={styles.navBar}>
 
-					*/
-					camera={{cameraId: 1, cameraFrontMirror: true}}
-					audio={{bitrate: 32000, profile: 1, samplerate: 44100}}
-					video={{
-						preset: options.resolution.preset,
-						fps: 30,
-						bitrate: 500000,
-						profile: 1,
-						videoFrontMirror: false,
-					}}
-					smoothSkinLevel={3}
-					autopreview={true}
-					onStatus={(code: any, msg: string) => {
-						if (code === 2002) {
-							stopStream();
-							Alert.alert(
-								'Error connecting to stream',
-								'Please make sure you have a stream set up',
-							);
-						}
-
-						console.log('onStatus=' + code + ' msg=' + msg);
-					}}
-				/>
-				{isLeftMenuActive && (
-					<View style={[styles.menu]}>
-						<MenuItem
-							onPress={() => {
-								showMyStreams()
-							}}
-							iconSource={Images.SHOP_ICON}
-							label={'My Shops'}
-						/>
-						<MenuItem
-							onPress={() => {
-								handleLogout()
-							}}
-							iconSource={Images.LOGOUT_ICON}
-							label={'Log out'}
-						/>
-					</View>
-				)}
-				{isRightMenuActive && (
-					<View style={[styles.menu]}>
-						<MenuItem
-							separator={true}
-							label="Resolution"/>
-						{RESOLUTIONS.map((resolution) => (
-							<MenuItem
-								key={'r-' + resolution.preset}
-								onPress={() => {
-									setResolution(resolution);
-								}}
-								iconSource={
-									options.resolution.preset === resolution.preset
-										? Images.CHECKBOX_ICON
-										: Images.CHECKBOX_OFF_ICON
-								}
-								label={resolution.label}
-							/>
-						))}
-					</View>
-				)}
-				<View style={[styles.bottomMenu]}>
-					{isBottomMenuActive && (
-						<FlatList
-							data={[
-								{id: 1, date: 'Jan 18, 2020', time: '11:30 am'},
-								{id: 2, date: 'Feb 18, 2020', time: '11:30 am'},
-								{id: 3, date: 'Mar 18, 2020', time: '11:30 am'},
-								{id: 4, date: 'Apr 18, 2020', time: '11:30 am'},
-							]}
-							renderItem={renderBottomMenuItem}
-							keyExtractor={(item) => item.id.toString()}
-						/>
-					)}
+				<View style={styles.menuIconWrapper}>
+					<Image source={Images.MENU_ICON} style={styles.menuIcon}/>
 				</View>
-				<StopConfirmationModal
-					onStopStream={stopStream}
-					onStopStreamFacebook={stopStream}
-					onClose={() => setIsStopModalVisible(false)}
-					visible={isStopModalVisible}
-				/>
+
+				<Text style={styles.navTitle}> Order #100</Text>
+
+				<View style={styles.cartIconContainer}>
+					<View style={styles.cartIconWrapper}>
+						<Image source={Images.CART_ICON} style={styles.cartIcon}/>
+					</View>
+					<View style={styles.cartTitleWrapper}>
+						<Text style={styles.cartTitle}> 3</Text>
+					</View>
+				</View>
+
 			</View>
-		</TouchableWithoutFeedback>
+
+			<View style={styles.container}>
+				<Image source={Images.PLACE_HOLDER_IMAGE}/>
+			</View>
+
+			<View style={styles.bottomBar}>
+
+				<View style={styles.bottomBarLeft}>
+
+					<View style={styles.cartIconContainer}>
+						<View style={styles.cartIconWrapper}>
+							<Image source={Images.IMAGE_ICON} style={styles.cartIcon}/>
+						</View>
+					</View>
+
+					<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showImagesDialog()}>
+						<View style={styles.cartIconWrapper}>
+							<Image source={Images.INFO_ICON} style={styles.cartIcon}/>
+						</View>
+					</TouchableWithoutFeedback>
+
+				</View>
+
+				<View style={styles.BottomBarRight}>
+					<Text style={styles.BottomBarRightText}>$620.00</Text>
+
+					<View style={styles.cartIconContainer}>
+						<View style={styles.cartIconWrapper}>
+							<Image source={Images.BUY_ICON} style={styles.cartIcon}/>
+						</View>
+					</View>
+				</View>
+
+
+			</View>
+
+		</View>
 	);
+
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#333',
-	},
-	controller: {
-		position: 'absolute',
-		bottom: 22,
-		right: 22,
-	},
-	controllerRecording: {
-		height: 60,
-		width: 180,
-		borderRadius: 30,
-		backgroundColor: '#fff',
+	navBar: {
+		backgroundColor: Colors.NAV_COLOR,
+		height: 45,
+		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
-	recordingTime: {
-		color: '#464646',
-		fontSize: 24,
+	menuIconWrapper: {
+		height: 45,
+		width: 45,
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	navTitle: {
+		fontFamily: 'Barlow-Light',
+		fontSize: 18,
+		color: Colors.WHITE,
 		flex: 1,
-		fontWeight: 'bold',
-		textAlign: 'center',
 	},
-	controllerButton: {
-		width: 60,
-		height: 60,
-		borderRadius: 30,
-		backgroundColor: '#D73676',
+	menuIcon: {
+		height: 16,
+		width: 20,
+	},
+	cartIconContainer: {
+		height: 42,
+		width: 42,
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginRight: 5,
+	},
+	cartIconWrapper: {
+		backgroundColor: Colors.WHITE,
+		height: 30,
+		width: 30,
+		borderRadius: 40,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	controllerButtonText: {
-		color: 'white',
-		fontWeight: '900',
-		fontSize: 13,
-		textAlign: 'center',
+	cartIcon: {
+		height: 16,
+		width: 16,
+		alignSelf: 'center',
+		resizeMode: 'contain',
 	},
-	navButton: {
-		width: 64,
-		height: 64,
+	cartTitleWrapper: {
+		position: 'absolute',
+		left: 0,
+		bottom: 0,
+		backgroundColor: Colors.WHITE,
+		borderRadius: 40,
+		borderColor: Colors.NAV_COLOR,
+		borderWidth: 2,
+		width: 19,
+		height: 19,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	navButtonActive: {
-		backgroundColor: '#BA1F5C',
+	cartTitle: {
+		fontFamily: 'Barlow-Light',
+		fontSize: 12,
+		padding: 0,
+		marginLeft: -3,
+		textAlign: 'center',
+		textAlignVertical: 'center',
+	},
+	container: {
+		flex: 1,
 	},
 	menu: {
 		width: '100%',
@@ -414,4 +201,30 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		left: 0,
 	},
+	bottomBar: {
+		backgroundColor: Colors.NAV_COLOR,
+		height: 45,
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	bottomBarLeft: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginHorizontal: 10,
+	},
+	BottomBarRight: {
+		backgroundColor: Colors.BOTTOM_BAR_COLOR,
+		height: '100%',
+		display: 'flex',
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	BottomBarRightText: {
+		fontFamily: 'Barlow-Light',
+		flex: 1,
+		color: Colors.WHITE,
+		fontSize: 17,
+		marginHorizontal: 20,
+	}
 });

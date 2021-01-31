@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 	},
 	expandedMenuRow: {
-		backgroundColor: Colors.DarkPink
+		backgroundColor: Colors.DARK_PINK
 	},
 	dateContainer: {
 		flexDirection: 'row',
@@ -97,14 +97,14 @@ const styles = StyleSheet.create({
 		alignContent: 'center'
 	},
 	button: {
-		backgroundColor: Colors.White,
+		backgroundColor: Colors.WHITE,
 		borderRadius: 20,
 		height: 40,
 		paddingVertical: 10,
 		marginTop: 30
 	},
 	buttonText: {
-		color: Colors.Text,
+		color: Colors.TEXT,
 		textAlign: 'center',
 		fontFamily: 'Roboto',
 		fontSize: 16,

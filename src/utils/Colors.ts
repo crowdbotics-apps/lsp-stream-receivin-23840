@@ -1,7 +1,9 @@
 export default {
-	Pink: '#BA1F5C',
-	LightPink: '#D73776',
-	DarkPink: '#9F0944',
-	White: '#fff',
-	Text: '#464646'
+	PINK: '#BA1F5C',
+	LIGHT_PINK: '#D73776',
+	DARK_PINK: '#9F0944',
+	WHITE: '#fff',
+	TEXT: '#464646',
+	NAV_COLOR: '#515151',
+	BOTTOM_BAR_COLOR: '#D73776',
 }
