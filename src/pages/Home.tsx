@@ -16,6 +16,7 @@ import {
 	LayoutAnimation,
 	Alert,
 	ActivityIndicator,
+	SafeAreaView,
 } from 'react-native';
 import routes from '../navigation/routes';
 import {logout} from '../api/auth';
@@ -56,63 +57,69 @@ export default function HomeScreen({navigation}) {
 	}
 
 	return (
-		<View style={styles.container}>
+		<>
+			<SafeAreaView style={{flex: 0, backgroundColor: Colors.NAV_COLOR}}/>
+			<SafeAreaView style={{flex: 1, backgroundColor: Colors.NAV_COLOR, overflow: 'hidden'}}>
+				<View style={styles.container}>
 
-			<View style={styles.navBar}>
+					<View style={styles.navBar}>
 
-				<View style={styles.menuIconWrapper}>
-					<Image source={Images.MENU_ICON} style={styles.menuIcon}/>
-				</View>
-
-				<Text style={styles.navTitle}> Order #100</Text>
-
-				<View style={styles.cartIconContainer}>
-					<View style={styles.cartIconWrapper}>
-						<Image source={Images.CART_ICON} style={styles.cartIcon}/>
-					</View>
-					<View style={styles.cartTitleWrapper}>
-						<Text style={styles.cartTitle}> 3</Text>
-					</View>
-				</View>
-
-			</View>
-
-			<View style={styles.container}>
-				<Image source={Images.PLACE_HOLDER_IMAGE}/>
-			</View>
-
-			<View style={styles.bottomBar}>
-
-				<View style={styles.bottomBarLeft}>
-
-					<View style={styles.cartIconContainer}>
-						<View style={styles.cartIconWrapper}>
-							<Image source={Images.IMAGE_ICON} style={styles.cartIcon}/>
+						<View style={styles.menuIconWrapper}>
+							<Image source={Images.MENU_ICON} style={styles.menuIcon}/>
 						</View>
+
+						<Text style={styles.navTitle}> Order #100</Text>
+
+						<View style={styles.cartIconContainer}>
+							<View style={styles.cartIconWrapper}>
+								<Image source={Images.CART_ICON} style={styles.cartIcon}/>
+							</View>
+							<View style={styles.cartTitleWrapper}>
+								<Text style={styles.cartTitle}> 3</Text>
+							</View>
+						</View>
+
 					</View>
 
-					<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showImagesDialog()}>
-						<View style={styles.cartIconWrapper}>
-							<Image source={Images.INFO_ICON} style={styles.cartIcon}/>
-						</View>
-					</TouchableWithoutFeedback>
-
-				</View>
-
-				<View style={styles.BottomBarRight}>
-					<Text style={styles.BottomBarRightText}>$620.00</Text>
-
-					<View style={styles.cartIconContainer}>
-						<View style={styles.cartIconWrapper}>
-							<Image source={Images.BUY_ICON} style={styles.cartIcon}/>
-						</View>
+					<View style={styles.container}>
+						<Image source={Images.PLACE_HOLDER_IMAGE} style={styles.mainImage}/>
 					</View>
+
+					<View style={styles.bottomBar}>
+
+						<View style={styles.bottomBarLeft}>
+
+							<View style={styles.cartIconContainer}>
+								<View style={styles.cartIconWrapper}>
+									<Image source={Images.IMAGE_ICON} style={styles.cartIcon}/>
+								</View>
+							</View>
+
+							<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showImagesDialog()}>
+								<View style={styles.cartIconWrapper}>
+									<Image source={Images.INFO_ICON} style={styles.cartIcon}/>
+								</View>
+							</TouchableWithoutFeedback>
+
+						</View>
+
+						<View style={styles.BottomBarRight}>
+							<Text style={styles.BottomBarRightText}>$620.00</Text>
+
+							<View style={styles.cartIconContainer}>
+								<View style={styles.cartIconWrapper}>
+									<Image source={Images.BUY_ICON} style={styles.cartIcon}/>
+								</View>
+							</View>
+						</View>
+
+
+					</View>
+
 				</View>
+			</SafeAreaView>
+		</>
 
-
-			</View>
-
-		</View>
 	);
 
 }
@@ -185,6 +192,10 @@ const styles = StyleSheet.create({
 		textAlignVertical: 'center',
 	},
 	container: {
+		flex: 1,
+	},
+	mainImage: {
+		width: '100%',
 		flex: 1,
 	},
 	menu: {
