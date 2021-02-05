@@ -50,63 +50,11 @@
 	</dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>AntDesign.ttf</string>
-		<string>Entypo.ttf</string>
-		<string>EvilIcons.ttf</string>
-		<string>Feather.ttf</string>
-		<string>FontAwesome.ttf</string>
-		<string>FontAwesome5_Brands.ttf</string>
-		<string>FontAwesome5_Regular.ttf</string>
-		<string>FontAwesome5_Solid.ttf</string>
-		<string>Foundation.ttf</string>
-		<string>Ionicons.ttf</string>
-		<string>MaterialIcons.ttf</string>
-		<string>MaterialCommunityIcons.ttf</string>
-		<string>SimpleLineIcons.ttf</string>
-		<string>Octicons.ttf</string>
-		<string>Zocial.ttf</string>
 		<string>CrimsonText-Bold.ttf</string>
-		<string>CrimsonText-BoldItalic.ttf</string>
-		<string>CrimsonText-Italic.ttf</string>
-		<string>CrimsonText-Regular.ttf</string>
-		<string>fontawesome.ttf</string>
-		<string>icomoon.ttf</string>
-		<string>Lato-Bold.ttf</string>
-		<string>Lato-BoldItalic.ttf</string>
-		<string>Lato-Italic.ttf</string>
-		<string>Lato-Regular.ttf</string>
-		<string>Merriweather-Bold.ttf</string>
-		<string>Merriweather-BoldItalic.ttf</string>
-		<string>Merriweather-Italic.ttf</string>
-		<string>Merriweather-Regular.ttf</string>
-		<string>Montserrat-Bold.ttf</string>
-		<string>Montserrat-BoldItalic.ttf</string>
-		<string>Montserrat-Italic.ttf</string>
-		<string>Montserrat-Regular.ttf</string>
-		<string>Nunito-Bold.ttf</string>
-		<string>Nunito-BoldItalic.ttf</string>
-		<string>Nunito-Italic.ttf</string>
-		<string>Nunito-Regular.ttf</string>
-		<string>OpenSans-Bold.ttf</string>
-		<string>OpenSans-BoldItalic.ttf</string>
-		<string>OpenSans-Italic.ttf</string>
-		<string>OpenSans-Regular.ttf</string>
-		<string>PlayfairDisplay-Bold.ttf</string>
-		<string>PlayfairDisplay-BoldItalic.ttf</string>
-		<string>PlayfairDisplay-Italic.ttf</string>
-		<string>PlayfairDisplay-Regular.ttf</string>
-		<string>Righteous-Regular.ttf</string>
-		<string>Roboto-Bold.ttf</string>
-		<string>Roboto-BoldItalic.ttf</string>
-		<string>Roboto-Italic.ttf</string>
 		<string>Roboto-Light.ttf</string>
 		<string>Roboto-Medium.ttf</string>
-		<string>Roboto-Regular.ttf</string>
-		<string>RobotoMono-Bold.ttf</string>
-		<string>RobotoMono-BoldItalic.ttf</string>
-		<string>RobotoMono-Italic.ttf</string>
-		<string>RobotoMono-Regular.ttf</string>
-		<string>Fontisto.ttf</string>
+		<string>Barlow-Medium.ttf</string>
+		<string>Barlow-Light.ttf</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Your message to user when the camera is accessed for the first time</string>
@@ -115,7 +63,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Your message to user when the microphone is accessed for the first time</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-  <string>$(PRODUCT_NAME) would like to save photos to your photo gallery</string>
+	<string>$(PRODUCT_NAME) would like to save photos to your photo gallery</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UILaunchStoryboardName</key>
