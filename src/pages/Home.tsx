@@ -28,7 +28,48 @@ import Colors from '../utils/Colors';
 import Fonts from "../utils/Fonts";
 
 
+const NavigationButton = ({onPress, iconSource, active}) => (
+	<TouchableOpacity
+		onPress={onPress}
+		style={[styles.navButton, active ? styles.navButtonActive : undefined]}>
+		<Image source={iconSource} style={styles.navButtonImg}/>
+	</TouchableOpacity>
+);
+
+
 export default function HomeScreen({navigation}) {
+
+	const [isLeftMenuActive, setIsLeftMenuActive] = useState(false);
+
+
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			headerLeft: () => (
+				<NavigationButton
+					onPress={() => {
+						setIsLeftMenuActive(!isLeftMenuActive);
+					}}
+					iconSource={Images.MENU_ICON}
+					active={isLeftMenuActive}
+				/>
+			),
+			headerTitle: () => (
+				<View>
+					<Text style={styles.navTitle}> Order #100</Text>
+				</View>
+			),
+			headerRight: () => (
+				<TouchableOpacity style={styles.cartIconContainer}>
+					<View style={styles.cartIconWrapper}>
+						<Image source={Images.CART_ICON} style={styles.cartIcon}/>
+					</View>
+					<View style={styles.cartTitleWrapper}>
+						<Text style={styles.cartTitle}> 3</Text>
+					</View>
+				</TouchableOpacity>
+			),
+		});
+	}, [navigation, isLeftMenuActive]);
 
 
 	const handleLogout = () => {
@@ -76,71 +117,48 @@ export default function HomeScreen({navigation}) {
 	}
 
 	return (
-		<>
-			<SafeAreaView style={{flex: 0, backgroundColor: Colors.NAV_COLOR}}/>
-			<SafeAreaView style={{flex: 1, backgroundColor: Colors.NAV_COLOR, overflow: 'hidden'}}>
+		<SafeAreaView style={{flex: 1, backgroundColor: Colors.NAV_COLOR}}>
+			<View style={styles.container}>
+
 				<View style={styles.container}>
+					<Image source={Images.PLACE_HOLDER_IMAGE} style={styles.mainImage}/>
+				</View>
 
-					<View style={styles.navBar}>
+				<View style={styles.bottomBar}>
 
-						<View style={styles.menuIconWrapper}>
-							<Image source={Images.MENU_ICON} style={styles.menuIcon}/>
-						</View>
+					<View style={styles.bottomBarLeft}>
 
-						<Text style={styles.navTitle}> Order #100</Text>
+						<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showImagesDialog()}>
+							<View style={styles.cartIconContainer}>
+								<View style={styles.cartIconWrapper}>
+									<Image source={Images.IMAGE_ICON} style={styles.cartIcon}/>
+								</View>
+							</View>
+						</TouchableWithoutFeedback>
+
+						<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showDetailDialog()}>
+							<View style={styles.cartIconWrapper}>
+								<Image source={Images.INFO_ICON} style={styles.cartIcon}/>
+							</View>
+						</TouchableWithoutFeedback>
+
+					</View>
+
+					<View style={styles.BottomBarRight}>
+						<Text style={styles.BottomBarRightText}>$620.00</Text>
 
 						<View style={styles.cartIconContainer}>
 							<View style={styles.cartIconWrapper}>
-								<Image source={Images.CART_ICON} style={styles.cartIcon}/>
-							</View>
-							<View style={styles.cartTitleWrapper}>
-								<Text style={styles.cartTitle}> 3</Text>
+								<Image source={Images.BUY_ICON} style={styles.cartIcon}/>
 							</View>
 						</View>
-
 					</View>
 
-					<View style={styles.container}>
-						<Image source={Images.PLACE_HOLDER_IMAGE} style={styles.mainImage}/>
-					</View>
-
-					<View style={styles.bottomBar}>
-
-						<View style={styles.bottomBarLeft}>
-
-							<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showImagesDialog()}>
-								<View style={styles.cartIconContainer}>
-									<View style={styles.cartIconWrapper}>
-										<Image source={Images.IMAGE_ICON} style={styles.cartIcon}/>
-									</View>
-								</View>
-							</TouchableWithoutFeedback>
-
-							<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showDetailDialog()}>
-								<View style={styles.cartIconWrapper}>
-									<Image source={Images.INFO_ICON} style={styles.cartIcon}/>
-								</View>
-							</TouchableWithoutFeedback>
-
-						</View>
-
-						<View style={styles.BottomBarRight}>
-							<Text style={styles.BottomBarRightText}>$620.00</Text>
-
-							<View style={styles.cartIconContainer}>
-								<View style={styles.cartIconWrapper}>
-									<Image source={Images.BUY_ICON} style={styles.cartIcon}/>
-								</View>
-							</View>
-						</View>
-
-
-					</View>
 
 				</View>
-			</SafeAreaView>
-		</>
 
+			</View>
+		</SafeAreaView>
 	);
 
 }
@@ -164,7 +182,6 @@ const styles = StyleSheet.create({
 		fontFamily: Fonts.BARLOW_LIGHT,
 		fontSize: 18,
 		color: Colors.WHITE,
-		flex: 1,
 	},
 	menuIcon: {
 		height: 16,
@@ -258,5 +275,14 @@ const styles = StyleSheet.create({
 		color: Colors.WHITE,
 		fontSize: 17,
 		marginHorizontal: 20,
-	}
+	},
+	navButton: {
+		width: 45,
+		height: 45,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	navButtonActive: {
+		backgroundColor: '#BA1F5C',
+	},
 });
