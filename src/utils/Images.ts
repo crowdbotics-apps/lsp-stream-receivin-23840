@@ -14,4 +14,5 @@ export default {
 	BUY_ICON: require('../../assets/images/buy.png'),
 	INFO_ICON: require('../../assets/images/info.png'),
 	PLACE_HOLDER_IMAGE: require('../../assets/images/placeHolder.png'),
+	CLOSE_DARK_ICON: require('../../assets/images/close_dark_icon.png'),
 }

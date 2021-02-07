@@ -6337,7 +6337,7 @@ react-native-base64@0.0.2:
   resolved "https://registry.yarnpkg.com/react-native-base64/-/react-native-base64-0.0.2.tgz#c28463c2c6779ac3ec5fdd12979ebc8c5f9b410a"
   integrity sha512-Fu/J1a2y0X22EJDWqJR2oEa1fpP4gTFjYxk8ElJdt1Yak3HOXmFJ7EohLVHU2DaQkgmKfw8qb7u/48gpzveRbg==
 
-react-native-dialog-component@^0.2.17:
+react-native-dialog-component@^0.4.16:
   version "0.2.17"
   resolved "https://registry.yarnpkg.com/react-native-dialog-component/-/react-native-dialog-component-0.2.17.tgz#b34b6f9aab0c560e7a3819d18db05d286d9a76a7"
   integrity sha1-s0tvmqsMVg56OBnRjbBdKG2adqc=

@@ -22,8 +22,10 @@ import routes from '../navigation/routes';
 import {logout} from '../api/auth';
 import Images from '../utils/Images';
 import ProductDetailDialog from '../components/ProductDetailDialog';
+import ProductImageDialog from '../components/ProductImageDialog';
 import DialogManager, {DialogComponent, DialogContent, ScaleAnimation, SlideAnimation} from "react-native-dialog-component";
 import Colors from '../utils/Colors';
+import Fonts from "../utils/Fonts";
 
 
 export default function HomeScreen({navigation}) {
@@ -39,7 +41,7 @@ export default function HomeScreen({navigation}) {
 			.catch(completion)
 	}
 
-	const showImagesDialog = () => {
+	const showDetailDialog = () => {
 		let config = {
 			animationDuration: 200,
 			ScaleAnimation: new ScaleAnimation(),
@@ -48,6 +50,23 @@ export default function HomeScreen({navigation}) {
 			children: (
 				<DialogContent style={{height: '100%', marginHorizontal: 0, padding: 0}}>
 					<ProductDetailDialog/>
+				</DialogContent>
+			),
+		};
+		DialogManager.show(config, () => {
+			console.log('callback - update dialog');
+		});
+	}
+
+	const showImagesDialog = () => {
+		let config = {
+			animationDuration: 200,
+			ScaleAnimation: new ScaleAnimation(),
+			dialogAnimation: new SlideAnimation({slideFrom: 'bottom'}),
+			dialogStyle: [{padding: 0, borderRadius: 14, width: '90%', height: '45%', margin: 10,}],
+			children: (
+				<DialogContent style={{height: '100%', marginHorizontal: 0, padding: 0}}>
+					<ProductImageDialog/>
 				</DialogContent>
 			),
 		};
@@ -89,13 +108,15 @@ export default function HomeScreen({navigation}) {
 
 						<View style={styles.bottomBarLeft}>
 
-							<View style={styles.cartIconContainer}>
-								<View style={styles.cartIconWrapper}>
-									<Image source={Images.IMAGE_ICON} style={styles.cartIcon}/>
-								</View>
-							</View>
-
 							<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showImagesDialog()}>
+								<View style={styles.cartIconContainer}>
+									<View style={styles.cartIconWrapper}>
+										<Image source={Images.IMAGE_ICON} style={styles.cartIcon}/>
+									</View>
+								</View>
+							</TouchableWithoutFeedback>
+
+							<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showDetailDialog()}>
 								<View style={styles.cartIconWrapper}>
 									<Image source={Images.INFO_ICON} style={styles.cartIcon}/>
 								</View>
@@ -140,7 +161,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	navTitle: {
-		fontFamily: 'Barlow-Light',
+		fontFamily: Fonts.BARLOW_LIGHT,
 		fontSize: 18,
 		color: Colors.WHITE,
 		flex: 1,
@@ -184,7 +205,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	cartTitle: {
-		fontFamily: 'Barlow-Light',
+		fontFamily: Fonts.BARLOW_LIGHT,
 		fontSize: 12,
 		padding: 0,
 		marginLeft: -3,
@@ -232,7 +253,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	BottomBarRightText: {
-		fontFamily: 'Barlow-Light',
+		fontFamily: Fonts.BARLOW_LIGHT,
 		flex: 1,
 		color: Colors.WHITE,
 		fontSize: 17,
