@@ -16,14 +16,20 @@ import {
 	LayoutAnimation,
 	Alert,
 	ActivityIndicator,
+	FlatList,
 } from 'react-native';
 import Colors from '../utils/Colors';
 import Fonts from "../utils/Fonts";
 import Images from "../utils/Images";
-import DialogManager from "react-native-dialog-component";
 
-export default function ProductDetailDialog({}) {
+export default function ProductImageDialog({}) {
 
+	const data = [
+		{path: require('../../assets/images/demo_image_1.png')},
+		{path: require('../../assets/images/demo_image_2.png')},
+		{path: require('../../assets/images/demo_image_3.png')},
+		{path: require('../../assets/images/demo_image_4.png')},
+	];
 
 	return (
 		<View style={styles.container}>
@@ -40,38 +46,32 @@ export default function ProductDetailDialog({}) {
 				</TouchableWithoutFeedback>
 			</View>
 
-
 			<Text
 				style={styles.title}>
-				Product Details
+				Product Images
 			</Text>
 
-
-			<Text style={styles.description}>
-				How fun and festive is this pumpkin graphic tee?? I love the black and white buffalo plaid and the super soft material!
-			</Text>
-			<Text style={styles.titleSize}>
-				Available in these sizes
-			</Text>
-			<View style={{flexDirection: 'column'}}>
-
-				<Text style={styles.itemWrapper}>
-					<Text style={styles.titleItem}>S </Text>
-					<Text style={styles.descriptionItem}>(2/4)</Text>
-				</Text>
-				<Text style={styles.itemWrapper}>
-					<Text style={styles.title}>M </Text>
-					<Text style={styles.descriptionItem}>(6/8)</Text>
-				</Text>
-				<Text style={styles.itemWrapper}>
-					<Text style={styles.title}>L </Text>
-					<Text style={styles.descriptionItem}>(10/12)</Text>
-				</Text>
-				<Text style={styles.itemWrapper}>
-					<Text style={styles.title}>2XL </Text>
-					<Text style={styles.descriptionItem}>(18)</Text>
-				</Text>
-			</View>
+			<FlatList
+				data={data}
+				columnWrapperStyle={{}}
+				renderItem={({item}) => (
+					<View
+						style={{
+							flex: 0.5,
+							marginHorizontal: 3,
+							marginVertical: 3,
+						}}>
+						<Image
+							style={styles.imageThumbnail}
+							source={item.path}
+							resizeMode={"stretch"}
+						/>
+					</View>
+				)}
+				//Setting the number of column
+				numColumns={2}
+				keyExtractor={(item, index) => index.toString()}
+			/>
 		</View>
 	);
 }
@@ -79,15 +79,15 @@ export default function ProductDetailDialog({}) {
 const styles = StyleSheet.create({
 	container: {
 		height: '100%',
+		flexDirection: 'column',
 	},
 	title: {
-		fontFamily: Fonts.BARLOW_MEDIUM,
+		fontFamily: Fonts.BARLOW_BOLD,
 		fontSize: 14,
 		textTransform: 'uppercase',
 		color: Colors.TEXT,
 		marginBottom: 10,
 	},
-
 	titleSize: {
 		fontFamily: Fonts.BARLOW_MEDIUM,
 		fontSize: 13,
@@ -115,6 +115,14 @@ const styles = StyleSheet.create({
 		color: Colors.TEXT,
 	},
 	itemWrapper: {},
+	imageThumbnail: {
+		width: '100%',
+		resizeMode: 'contain',
+		height: undefined,
+		aspectRatio: 1,
+		padding: 0,
+		margin: 0,
+	},
 	closeIcon: {
 		width: 20,
 		height: 20,

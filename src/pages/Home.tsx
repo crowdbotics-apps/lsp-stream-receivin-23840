@@ -22,11 +22,54 @@ import routes from '../navigation/routes';
 import {logout} from '../api/auth';
 import Images from '../utils/Images';
 import ProductDetailDialog from '../components/ProductDetailDialog';
+import ProductImageDialog from '../components/ProductImageDialog';
 import DialogManager, {DialogComponent, DialogContent, ScaleAnimation, SlideAnimation} from "react-native-dialog-component";
 import Colors from '../utils/Colors';
+import Fonts from "../utils/Fonts";
+
+
+const NavigationButton = ({onPress, iconSource, active}) => (
+	<TouchableOpacity
+		onPress={onPress}
+		style={[styles.navButton, active ? styles.navButtonActive : undefined]}>
+		<Image source={iconSource} style={styles.navButtonImg}/>
+	</TouchableOpacity>
+);
 
 
 export default function HomeScreen({navigation}) {
+
+	const [isLeftMenuActive, setIsLeftMenuActive] = useState(false);
+
+
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			headerLeft: () => (
+				<NavigationButton
+					onPress={() => {
+						setIsLeftMenuActive(!isLeftMenuActive);
+					}}
+					iconSource={Images.MENU_ICON}
+					active={isLeftMenuActive}
+				/>
+			),
+			headerTitle: () => (
+				<View>
+					<Text style={styles.navTitle}> Order #100</Text>
+				</View>
+			),
+			headerRight: () => (
+				<TouchableOpacity style={styles.cartIconContainer}>
+					<View style={styles.cartIconWrapper}>
+						<Image source={Images.CART_ICON} style={styles.cartIcon}/>
+					</View>
+					<View style={styles.cartTitleWrapper}>
+						<Text style={styles.cartTitle}> 3</Text>
+					</View>
+				</TouchableOpacity>
+			),
+		});
+	}, [navigation, isLeftMenuActive]);
 
 
 	const handleLogout = () => {
@@ -39,7 +82,7 @@ export default function HomeScreen({navigation}) {
 			.catch(completion)
 	}
 
-	const showImagesDialog = () => {
+	const showDetailDialog = () => {
 		let config = {
 			animationDuration: 200,
 			ScaleAnimation: new ScaleAnimation(),
@@ -56,70 +99,66 @@ export default function HomeScreen({navigation}) {
 		});
 	}
 
+	const showImagesDialog = () => {
+		let config = {
+			animationDuration: 200,
+			ScaleAnimation: new ScaleAnimation(),
+			dialogAnimation: new SlideAnimation({slideFrom: 'bottom'}),
+			dialogStyle: [{padding: 0, borderRadius: 14, width: '90%', height: '45%', margin: 10,}],
+			children: (
+				<DialogContent style={{height: '100%', marginHorizontal: 0, padding: 0}}>
+					<ProductImageDialog/>
+				</DialogContent>
+			),
+		};
+		DialogManager.show(config, () => {
+			console.log('callback - update dialog');
+		});
+	}
+
 	return (
-		<>
-			<SafeAreaView style={{flex: 0, backgroundColor: Colors.NAV_COLOR}}/>
-			<SafeAreaView style={{flex: 1, backgroundColor: Colors.NAV_COLOR, overflow: 'hidden'}}>
+		<SafeAreaView style={{flex: 1, backgroundColor: Colors.NAV_COLOR}}>
+			<View style={styles.container}>
+
 				<View style={styles.container}>
+					<Image source={Images.PLACE_HOLDER_IMAGE} style={styles.mainImage}/>
+				</View>
 
-					<View style={styles.navBar}>
+				<View style={styles.bottomBar}>
 
-						<View style={styles.menuIconWrapper}>
-							<Image source={Images.MENU_ICON} style={styles.menuIcon}/>
-						</View>
+					<View style={styles.bottomBarLeft}>
 
-						<Text style={styles.navTitle}> Order #100</Text>
-
-						<View style={styles.cartIconContainer}>
-							<View style={styles.cartIconWrapper}>
-								<Image source={Images.CART_ICON} style={styles.cartIcon}/>
-							</View>
-							<View style={styles.cartTitleWrapper}>
-								<Text style={styles.cartTitle}> 3</Text>
-							</View>
-						</View>
-
-					</View>
-
-					<View style={styles.container}>
-						<Image source={Images.PLACE_HOLDER_IMAGE} style={styles.mainImage}/>
-					</View>
-
-					<View style={styles.bottomBar}>
-
-						<View style={styles.bottomBarLeft}>
-
+						<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showImagesDialog()}>
 							<View style={styles.cartIconContainer}>
 								<View style={styles.cartIconWrapper}>
 									<Image source={Images.IMAGE_ICON} style={styles.cartIcon}/>
 								</View>
 							</View>
+						</TouchableWithoutFeedback>
 
-							<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showImagesDialog()}>
-								<View style={styles.cartIconWrapper}>
-									<Image source={Images.INFO_ICON} style={styles.cartIcon}/>
-								</View>
-							</TouchableWithoutFeedback>
-
-						</View>
-
-						<View style={styles.BottomBarRight}>
-							<Text style={styles.BottomBarRightText}>$620.00</Text>
-
-							<View style={styles.cartIconContainer}>
-								<View style={styles.cartIconWrapper}>
-									<Image source={Images.BUY_ICON} style={styles.cartIcon}/>
-								</View>
+						<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showDetailDialog()}>
+							<View style={styles.cartIconWrapper}>
+								<Image source={Images.INFO_ICON} style={styles.cartIcon}/>
 							</View>
-						</View>
-
+						</TouchableWithoutFeedback>
 
 					</View>
 
-				</View>
-			</SafeAreaView>
-		</>
+					<View style={styles.BottomBarRight}>
+						<Text style={styles.BottomBarRightText}>$620.00</Text>
 
+						<View style={styles.cartIconContainer}>
+							<View style={styles.cartIconWrapper}>
+								<Image source={Images.BUY_ICON} style={styles.cartIcon}/>
+							</View>
+						</View>
+					</View>
+
+
+				</View>
+
+			</View>
+		</SafeAreaView>
 	);
 
 }
@@ -140,10 +179,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	navTitle: {
-		fontFamily: 'Barlow-Light',
+		fontFamily: Fonts.BARLOW_LIGHT,
 		fontSize: 18,
 		color: Colors.WHITE,
-		flex: 1,
 	},
 	menuIcon: {
 		height: 16,
@@ -184,7 +222,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	cartTitle: {
-		fontFamily: 'Barlow-Light',
+		fontFamily: Fonts.BARLOW_LIGHT,
 		fontSize: 12,
 		padding: 0,
 		marginLeft: -3,
@@ -232,10 +270,19 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	BottomBarRightText: {
-		fontFamily: 'Barlow-Light',
+		fontFamily: Fonts.BARLOW_LIGHT,
 		flex: 1,
 		color: Colors.WHITE,
 		fontSize: 17,
 		marginHorizontal: 20,
-	}
+	},
+	navButton: {
+		width: 45,
+		height: 45,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	navButtonActive: {
+		backgroundColor: '#BA1F5C',
+	},
 });

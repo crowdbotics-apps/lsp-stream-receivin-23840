@@ -9,6 +9,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Signin from '../pages/Signin'
 import Home from '../pages/Home';
 import routes from './routes';
+import Colors from "../utils/Colors";
 
 const Stack = createStackNavigator();
 const theme = {
@@ -31,7 +32,12 @@ const RootNavigator = () => {
 					name={routes.HOME}
 					component={Home}
 					options={{
-						headerShown: false
+						title: 'Live Stream',
+						headerTintColor: '#fff',
+						headerStyle: {
+							borderBottomColor: Colors.NAV_COLOR,
+							backgroundColor: Colors.NAV_COLOR,
+						},
 					}}
 				/>
 				<Stack.Screen
