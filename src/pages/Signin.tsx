@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {Image, SafeAreaView, Text, TouchableOpacity, View, StyleSheet, ActivityIndicator} from 'react-native'
 import {authenticateUser} from "../api/auth"
 import routes from '../navigation/routes';
-import Colors from '../utils/Colors';
+import R from "../r/R";
 
 export default function Signin({navigation}) {
 
@@ -23,10 +23,10 @@ export default function Signin({navigation}) {
 
 	return (
 		<View style={{flex: 1}}>
-			<SafeAreaView style={{flex: 0, backgroundColor: Colors.LIGHT_PINK}}/>
+			<SafeAreaView style={{flex: 0, backgroundColor: R.Colors.LIGHT_PINK}}/>
 			<SafeAreaView style={{flex: 1}}>
 				<View style={{backgroundColor: '#D73776', flexGrow: 0.2, justifyContent: 'center', alignItems: 'center'}}>
-					<Image source={require('../../assets/images/logo.png')}/>
+					<Image source={R.Images.LOGO_IMAGE}/>
 				</View>
 				<View style={{justifyContent: 'center', alignItems: 'center', flexGrow: 0.3}}>
 					<View style={{flexDirection: 'row'}}>
@@ -36,7 +36,7 @@ export default function Signin({navigation}) {
 					<Text style={{fontSize: 18, fontFamily: 'Barlow'}}>Sign In</Text>
 				</View>
 				<View style={styles.buttonContainer}>
-					{loading ? <ActivityIndicator animating={true} color={Colors.PINK}/> :
+					{loading ? <ActivityIndicator animating={true} color={R.Colors.PINK}/> :
 						<TouchableOpacity style={styles.button} onPress={() => {
 							handleLogin()
 						}}><Text style={styles.buttonText}>Sign In</Text></TouchableOpacity>
@@ -49,13 +49,13 @@ export default function Signin({navigation}) {
 
 const styles = StyleSheet.create({
 	button: {
-		backgroundColor: Colors.LIGHT_PINK,
+		backgroundColor: R.Colors.LIGHT_PINK,
 		borderRadius: 25,
 		height: 50,
 		paddingVertical: 15
 	},
 	buttonText: {
-		color: Colors.WHITE,
+		color: R.Colors.WHITE,
 		textAlign: 'center',
 		fontFamily: 'Roboto',
 		fontSize: 16,
