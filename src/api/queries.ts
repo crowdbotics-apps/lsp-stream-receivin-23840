@@ -8,23 +8,78 @@ export const GET_LIVE_SALES_EVENTS = gql`
     query LiveSalesEvents($shopId: ID!) {
         liveSalesEvents(shopId: $shopId) {
             nodes {
+                _id
                 title
-                startDate
                 streamTarget
+                startDate
+                claimWord
+                includedUrl
             }
         }
     }`
 
-export const CREATE_INGEST_SERVER = gql`
-    mutation CreateIngestServer($input: String!) {
-        createIngestServer(input: $shopId) {
-            _id
-            shopId
-            eventId
-            name
-            tags
-            ip
-            dns
-            status
-        }
-    }`
+
+export const GET_LIVE_STREAM_SERVERS = gql`
+	mutation listIngestServers($input: ID!) {
+		listIngestServers(shopId: $shopId) {
+			nodes{
+				name
+        shopId
+        status
+        dns
+        ip
+        _id
+      }
+    }
+  }`
+
+export const GET_INGEST_SERVER_DETAILS = gql`
+	mutation getIngestServerDetails($shopId: ID!, $serverId: ID!) {
+		getIngestServerDetails(shopId: $shopId, serverId: $serverId) {
+			name
+      shopId
+      status
+      dns
+      ip
+      inputUrl
+      outputUrl
+    }
+  }`
+
+// export const GET_SHOPS = gql`
+// 	mutation shops() {
+// 		shops() {
+// 		 shops {
+//         nodes{
+//           name
+//           _id
+//         }
+//       }
+//     }
+//   }`
+
+export const GET_SHOPS = gql`{ 
+	query shops {
+		shops{
+      nodes{
+        name
+        _id
+      }
+    } 
+	} 
+}`
+
+
+
+
+// export const GET_SHOPS = gql`
+// 	mutation shops() {
+// 		shops() {
+// 		 shops {
+//         nodes{
+//           name
+//           _id
+//         }
+//       }
+//     }
+//   }`
