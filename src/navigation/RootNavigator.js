@@ -40,7 +40,7 @@ const RootNavigator = () => {
 					}}
 				/>
 				<Stack.Screen
-					name={routes.}
+					name={routes.LOGIN}
 					component={Signin}
 					options={{
 						headerShown: false,
