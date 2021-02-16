@@ -17,10 +17,7 @@ import {
 	Alert,
 	ActivityIndicator,
 } from 'react-native';
-import Colors from '../utils/Colors';
-import Fonts from "../utils/Fonts";
-import Images from "../utils/Images";
-import DialogManager from "react-native-dialog-component";
+import R from "../r/R";
 
 export default function ProductDetailDialog({}) {
 
@@ -35,7 +32,7 @@ export default function ProductDetailDialog({}) {
 					}}>
 					<Image
 						style={styles.closeIcon}
-						source={Images.CLOSE_DARK_ICON}
+						source={R.Images.CLOSE_DARK_ICON}
 					/>
 				</TouchableWithoutFeedback>
 			</View>
@@ -81,38 +78,38 @@ const styles = StyleSheet.create({
 		height: '100%',
 	},
 	title: {
-		fontFamily: Fonts.BARLOW_MEDIUM,
+		fontFamily: R.Fonts.BARLOW_MEDIUM,
 		fontSize: 14,
 		textTransform: 'uppercase',
-		color: Colors.TEXT,
+		color: R.Colors.TEXT,
 		marginBottom: 10,
 	},
 
 	titleSize: {
-		fontFamily: Fonts.BARLOW_MEDIUM,
+		fontFamily: R.Fonts.BARLOW_MEDIUM,
 		fontSize: 13,
 		textTransform: 'uppercase',
-		color: Colors.TEXT,
+		color: R.Colors.TEXT,
 		marginTop: 20,
 		marginBottom: 10,
 	},
 	description: {
-		fontFamily: Fonts.BARLOW_LIGHT,
+		fontFamily: R.Fonts.BARLOW_LIGHT,
 		fontSize: 14,
-		color: Colors.TEXT,
+		color: R.Colors.TEXT,
 	},
 	descriptionItem: {
-		fontFamily: Fonts.BARLOW_LIGHT,
+		fontFamily: R.Fonts.BARLOW_LIGHT,
 		fontSize: 14,
-		color: Colors.TEXT,
+		color: R.Colors.TEXT,
 		padding: 10,
 		margin: 10,
 	},
 	titleItem: {
-		fontFamily: Fonts.BARLOW_MEDIUM,
+		fontFamily: R.Fonts.BARLOW_MEDIUM,
 		fontSize: 14,
 		textTransform: 'uppercase',
-		color: Colors.TEXT,
+		color: R.Colors.TEXT,
 	},
 	itemWrapper: {},
 	closeIcon: {
