@@ -59,17 +59,13 @@ export const GET_INGEST_SERVER_DETAILS = gql`
 //   }`
 
 export const GET_SHOPS = gql`{ 
-	query shops {
-		shops{
-      nodes{
-        name
-        _id
-      }
-    } 
-	} 
+	shops{
+    nodes{
+      name
+      _id
+    }
+  } 
 }`
-
-
 
 
 // export const GET_SHOPS = gql`

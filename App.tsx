@@ -23,6 +23,7 @@ const httpLink = createHttpLink({uri: 'https://api.livesalepro.com/graphql'});
 const authLink = setContext(async (_, {headers}) => {
 	// get the authentication token from local storage if it exists
 	const token = await AsyncStorage.getItem('access_token');
+	console.log('token', token);
 	return {
 		headers: {
 			...headers,

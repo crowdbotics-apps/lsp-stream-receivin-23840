@@ -42,7 +42,9 @@
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
+    "react-devtools": "^4.10.1",
     "react-test-renderer": "16.13.1",
+    "redux-devtools-extension": "^2.13.8",
     "typescript": "^3.8.3"
   },
   "jest": {

@@ -16,7 +16,7 @@ import {
 	LayoutAnimation,
 	Alert,
 	ActivityIndicator,
-	SafeAreaView,
+	SafeAreaView, Button,
 } from 'react-native';
 import ProductDetailDialog from '../components/ProductDetailDialog';
 import ProductImageDialog from '../components/ProductImageDialog';
@@ -36,11 +36,14 @@ import NavigationButton from "../components/NavigationButton";
 import R from "../r/R";
 import RightMenu from "../components/RightMenu";
 import {StackScreenProps} from "@react-navigation/stack";
+import {NodePlayerView} from 'react-native-nodemediaclient';
+import routes from "../navigation/routes";
 
 
 export default function HomeScreen({navigation}: StackScreenProps<{ Profile: any }>) {
 
 	const [isLeftMenuActive, setIsLeftMenuActive] = useState(false);
+	const [getShops, shopsResponse] = useLazyQuery(GET_SHOPS);
 	const [getShopId, shopIdResponse] = useLazyQuery(GET_LIVE_SALES_EVENTS);
 	const [getLiveSales, liveSalesResponse] = useLazyQuery<LivSalesResponse, LivSalesRequest>(GET_LIVE_SALES_EVENTS);
 	const [getIngestServerDetails, ingestServerDetailsResponse] = useLazyQuery<IngestServerDetailsResponse, IngestServerDetailsRequest>(GET_INGEST_SERVER_DETAILS);
@@ -49,8 +52,17 @@ export default function HomeScreen({navigation}: StackScreenProps<{ Profile: any
 	const ingestServerDetails = ingestServerDetailsResponse.data?.getIngestServerDetails
 
 	useEffect(() => {
-		getShopId()
+		getShops()
 	}, [])
+
+
+	useEffect(() => {
+		console.log(shopsResponse);
+		if (shopsResponse.data) {
+			console.log(shopsResponse);
+			//getLiveSales({ variables: { shopId: shopIdResponse.data.primaryShopId } })
+		}
+	}, [shopsResponse])
 
 	useEffect(() => {
 		console.log(shopIdResponse);
@@ -60,6 +72,9 @@ export default function HomeScreen({navigation}: StackScreenProps<{ Profile: any
 		}
 	}, [shopIdResponse])
 
+	const goToShoppingScreen = () => {
+		navigation.navigate(routes.SHOPPING_CART);
+	}
 
 	useLayoutEffect(() => {
 		navigation.setOptions({
@@ -78,7 +93,7 @@ export default function HomeScreen({navigation}: StackScreenProps<{ Profile: any
 				</View>
 			),
 			headerRight: () => (
-				<TouchableOpacity style={styles.cartIconContainer}>
+				<TouchableOpacity onPress={goToShoppingScreen} style={styles.cartIconContainer}>
 					<View style={styles.cartIconWrapper}>
 						<Image source={R.Images.CART_ICON} style={styles.cartIcon}/>
 					</View>
