@@ -137,7 +137,15 @@ export default function HomeScreen({navigation}: StackScreenProps<{ Profile: any
 					)}
 
 					<View style={styles.container}>
-						<Image source={R.Images.PLACE_HOLDER_IMAGE} style={styles.mainImage}/>
+						{/*<Image source={R.Images.PLACE_HOLDER_IMAGE} style={styles.mainImage}/>*/}
+						<NodePlayerView
+							style={styles.mainImage}
+							inputUrl={"rtmp://165.227.126.57:1935/live/out"}
+							scaleMode={"ScaleAspectFit"}
+							bufferTime={300}
+							maxBufferTime={1000}
+							autoplay={true}
+						/>
 					</View>
 
 					<View style={styles.bottomBar}>
