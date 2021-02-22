@@ -16,61 +16,43 @@ import {
 	LayoutAnimation,
 	Alert,
 	ActivityIndicator,
-	SafeAreaView, Button,
+	SafeAreaView,
+	Button,
 } from 'react-native';
 import ProductDetailDialog from '../components/ProductDetailDialog';
 import ProductImageDialog from '../components/ProductImageDialog';
 import DialogManager, {DialogComponent, DialogContent, ScaleAnimation, SlideAnimation} from "react-native-dialog-component";
 import {
-	GET_LIVE_STREAM_SERVERS,
-	GET_SHOPS,
-	GET_LIVE_SALES_EVENTS,
 	GET_INGEST_SERVER_DETAILS,
 } from '../api/queries';
-import {useLazyQuery, useMutation} from '@apollo/client'
-import {LivSalesRequest} from "../models/LivSalesRequest";
-import {LivSalesResponse} from "../models/LivSalesResponse";
+import {useLazyQuery} from '@apollo/client'
 import {IngestServerDetailsRequest} from "../models/IngestServerDetailsRequest";
 import {IngestServerDetailsResponse} from "../models/IngestServerDetailsResponse";
 import NavigationButton from "../components/NavigationButton";
 import R from "../r/R";
 import RightMenu from "../components/RightMenu";
-import {StackScreenProps} from "@react-navigation/stack";
 import {NodePlayerView} from 'react-native-nodemediaclient';
 import routes from "../navigation/routes";
 
 
-export default function HomeScreen({navigation}: StackScreenProps<{ Profile: any }>) {
+export default function HomeScreen({navigation, route: {params: {event, shop}}}) {
 
 	const [isLeftMenuActive, setIsLeftMenuActive] = useState(false);
-	const [getShops, shopsResponse] = useLazyQuery(GET_SHOPS);
-	const [getShopId, shopIdResponse] = useLazyQuery(GET_LIVE_SALES_EVENTS);
-	const [getLiveSales, liveSalesResponse] = useLazyQuery<LivSalesResponse, LivSalesRequest>(GET_LIVE_SALES_EVENTS);
 	const [getIngestServerDetails, ingestServerDetailsResponse] = useLazyQuery<IngestServerDetailsResponse, IngestServerDetailsRequest>(GET_INGEST_SERVER_DETAILS);
-
-	const liveSales = liveSalesResponse.data?.liveSalesEvents?.nodes
-	const ingestServerDetails = ingestServerDetailsResponse.data?.getIngestServerDetails
-
-	useEffect(() => {
-		getShops()
-	}, [])
+	const [getIngestServer, setIngestServer] = useState(null);
 
 
 	useEffect(() => {
-		console.log(shopsResponse);
-		if (shopsResponse.data) {
-			console.log(shopsResponse);
-			//getLiveSales({ variables: { shopId: shopIdResponse.data.primaryShopId } })
+		getIngestServerDetails({variables: {shopId: shop._id, eventId: event._id}});
+	}, []);
+
+
+	useEffect(() => {
+		console.log(ingestServerDetailsResponse);
+		if (ingestServerDetailsResponse.data && ingestServerDetailsResponse.data.getIngestServerDetails) {
+			setIngestServer(ingestServerDetailsResponse.data.getIngestServerDetails);
 		}
-	}, [shopsResponse])
-
-	useEffect(() => {
-		console.log(shopIdResponse);
-		if (shopIdResponse.data) {
-			console.log(shopIdResponse);
-			//getLiveSales({ variables: { shopId: shopIdResponse.data.primaryShopId } })
-		}
-	}, [shopIdResponse])
+	}, [ingestServerDetailsResponse])
 
 	const goToShoppingScreen = () => {
 		navigation.navigate(routes.SHOPPING_CART);
@@ -89,7 +71,7 @@ export default function HomeScreen({navigation}: StackScreenProps<{ Profile: any
 			),
 			headerTitle: () => (
 				<View>
-					<Text style={styles.navTitle}> Order #100</Text>
+					<Text style={styles.navTitle}> {event.title}</Text>
 				</View>
 			),
 			headerRight: () => (
@@ -155,7 +137,7 @@ export default function HomeScreen({navigation}: StackScreenProps<{ Profile: any
 						{/*<Image source={R.Images.PLACE_HOLDER_IMAGE} style={styles.mainImage}/>*/}
 						<NodePlayerView
 							style={styles.mainImage}
-							inputUrl={"rtmp://165.227.126.57:1935/live/out"}
+							inputUrl={getIngestServer?.outputUrl}
 							scaleMode={"ScaleAspectFit"}
 							bufferTime={300}
 							maxBufferTime={1000}

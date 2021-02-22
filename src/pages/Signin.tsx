@@ -13,7 +13,7 @@ export default function Signin({navigation}) {
 		setLoading(true)
 		const completion = () => {
 			setLoading(false)
-			navigation.replace(routes.HOME)
+			navigation.replace(routes.SHOPS)
 		}
 
 		authenticateUser()
