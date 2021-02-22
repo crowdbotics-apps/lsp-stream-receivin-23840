@@ -11,6 +11,8 @@ import Home from '../pages/Home';
 import routes from './routes';
 import R from "../r/R";
 import ShoppingCart from "../pages/ShoppingCart";
+import Shops from "../pages/Shops";
+import Streams from "../pages/Streams";
 
 const Stack = createStackNavigator();
 const theme = {
@@ -52,6 +54,30 @@ const RootNavigator = () => {
 					component={ShoppingCart}
 					options={{
 						title: 'Shopping Cart',
+						headerTintColor: '#fff',
+						headerStyle: {
+							borderBottomColor: R.Colors.NAV_COLOR,
+							backgroundColor: R.Colors.NAV_COLOR,
+						},
+					}}
+				/>
+				<Stack.Screen
+					name={routes.SHOPS}
+					component={Shops}
+					options={{
+						title: 'Shops',
+						headerTintColor: '#fff',
+						headerStyle: {
+							borderBottomColor: R.Colors.NAV_COLOR,
+							backgroundColor: R.Colors.NAV_COLOR,
+						},
+					}}
+				/>
+				<Stack.Screen
+					name={routes.STREAMS}
+					component={Streams}
+					options={{
+						title: 'Streams',
 						headerTintColor: '#fff',
 						headerStyle: {
 							borderBottomColor: R.Colors.NAV_COLOR,

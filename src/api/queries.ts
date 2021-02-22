@@ -20,22 +20,26 @@ export const GET_LIVE_SALES_EVENTS = gql`
 
 
 export const GET_LIVE_STREAM_SERVERS = gql`
-	mutation listIngestServers($input: ID!) {
+	query listIngestServers($input: ID!) {
 		listIngestServers(shopId: $shopId) {
 			nodes{
 				name
-        shopId
-        status
-        dns
-        ip
-        _id
+		    shopId
+		    status
+		    dns
+		    ip
+		    _id
+		    eventId
+		    tags
+		    inputUrl
+		    outputUrl
       }
     }
   }`
 
 export const GET_INGEST_SERVER_DETAILS = gql`
-	mutation getIngestServerDetails($shopId: ID!, $serverId: ID!) {
-		getIngestServerDetails(shopId: $shopId, serverId: $serverId) {
+	query getIngestServerDetails($shopId: ID!, $eventId: ID!) {
+		getIngestServerDetails(shopId: $shopId, eventId: $eventId) {
 			name
       shopId
       status
