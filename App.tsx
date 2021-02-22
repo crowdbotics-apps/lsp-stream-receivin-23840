@@ -12,7 +12,7 @@ import React from 'react';
 import 'react-native-gesture-handler'
 import {setupHttpConfig} from './src/api/apiClient';
 import RootNavigator from './src/navigation/RootNavigator';
-import {ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client';
+import {ApolloClient, InMemoryCache, ApolloProvider, createHttpLink, DefaultOptions} from '@apollo/client';
 import {setContext} from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -32,9 +32,21 @@ const authLink = setContext(async (_, {headers}) => {
 	}
 });
 
+const defaultOptions: DefaultOptions = {
+	watchQuery: {
+		fetchPolicy: 'no-cache',
+		errorPolicy: 'ignore',
+	},
+	query: {
+		fetchPolicy: 'no-cache',
+		errorPolicy: 'all',
+	},
+}
+
 const client = new ApolloClient({
 	link: authLink.concat(httpLink),
-	cache: new InMemoryCache()
+	cache: new InMemoryCache(),
+	defaultOptions: defaultOptions,
 });
 
 export default () => {
