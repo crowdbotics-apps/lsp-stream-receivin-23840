@@ -50,36 +50,17 @@ export const GET_INGEST_SERVER_DETAILS = gql`
     }
   }`
 
-// export const GET_SHOPS = gql`
-// 	mutation shops() {
-// 		shops() {
-// 		 shops {
-//         nodes{
-//           name
-//           _id
-//         }
-//       }
-//     }
-//   }`
-
 export const GET_SHOPS = gql`{ 
-	shops{
-    nodes{
-      name
-      _id
-    }
-  } 
+	query shops {
+		shops{
+      nodes{
+        name
+        _id
+        shopLogoUrls{
+          primaryShopLogoUrl
+        }
+      }
+    } 
+	} 
 }`
 
-
-// export const GET_SHOPS = gql`
-// 	mutation shops() {
-// 		shops() {
-// 		 shops {
-//         nodes{
-//           name
-//           _id
-//         }
-//       }
-//     }
-//   }`
