@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Image, TouchableOpacity, Text} from 'react-native';
-import Colors from '../utils/Colors';
+import R from "../r/R";
 
 const StreamListItem = ({
 	                        onPress = {},
@@ -9,7 +9,8 @@ const StreamListItem = ({
 	                        disabled = false,
 	                        separator = false,
 	                        isExpanded = false,
-	                        onStart
+	                        onStart = () => {
+	                        }
                         }) => {
 	return (
 		<TouchableOpacity
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 	},
 	expandedMenuRow: {
-		backgroundColor: Colors.DARK_PINK
+		backgroundColor: R.Colors.DARK_PINK
 	},
 	dateContainer: {
 		flexDirection: 'row',
@@ -97,14 +98,14 @@ const styles = StyleSheet.create({
 		alignContent: 'center'
 	},
 	button: {
-		backgroundColor: Colors.WHITE,
+		backgroundColor: R.Colors.WHITE,
 		borderRadius: 20,
 		height: 40,
 		paddingVertical: 10,
 		marginTop: 30
 	},
 	buttonText: {
-		color: Colors.TEXT,
+		color: R.Colors.TEXT,
 		textAlign: 'center',
 		fontFamily: 'Roboto',
 		fontSize: 16,

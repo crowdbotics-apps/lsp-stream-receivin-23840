@@ -9,7 +9,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Signin from '../pages/Signin'
 import Home from '../pages/Home';
 import routes from './routes';
-import Colors from "../utils/Colors";
+import R from "../r/R";
+import ShoppingCart from "../pages/ShoppingCart";
+import Shops from "../pages/Shops";
+import Streams from "../pages/Streams";
 
 const Stack = createStackNavigator();
 const theme = {
@@ -32,11 +35,9 @@ const RootNavigator = () => {
 					name={routes.HOME}
 					component={Home}
 					options={{
-						title: 'Live Stream',
-						headerTintColor: '#fff',
 						headerStyle: {
-							borderBottomColor: Colors.NAV_COLOR,
-							backgroundColor: Colors.NAV_COLOR,
+							borderBottomColor: R.Colors.NAV_COLOR,
+							backgroundColor: R.Colors.NAV_COLOR,
 						},
 					}}
 				/>
@@ -46,6 +47,42 @@ const RootNavigator = () => {
 					options={{
 						headerShown: false,
 						animationTypeForReplace: 'pop'
+					}}
+				/>
+				<Stack.Screen
+					name={routes.SHOPPING_CART}
+					component={ShoppingCart}
+					options={{
+						title: 'Shopping Cart',
+						headerTintColor: '#fff',
+						headerStyle: {
+							borderBottomColor: R.Colors.NAV_COLOR,
+							backgroundColor: R.Colors.NAV_COLOR,
+						},
+					}}
+				/>
+				<Stack.Screen
+					name={routes.SHOPS}
+					component={Shops}
+					options={{
+						title: 'Shops',
+						headerTintColor: '#fff',
+						headerStyle: {
+							borderBottomColor: R.Colors.NAV_COLOR,
+							backgroundColor: R.Colors.NAV_COLOR,
+						},
+					}}
+				/>
+				<Stack.Screen
+					name={routes.STREAMS}
+					component={Streams}
+					options={{
+						title: 'Streams',
+						headerTintColor: '#fff',
+						headerStyle: {
+							borderBottomColor: R.Colors.NAV_COLOR,
+							backgroundColor: R.Colors.NAV_COLOR,
+						},
 					}}
 				/>
 			</Stack.Navigator>

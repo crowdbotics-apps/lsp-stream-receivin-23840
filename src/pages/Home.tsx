@@ -17,30 +17,46 @@ import {
 	Alert,
 	ActivityIndicator,
 	SafeAreaView,
+	Button,
 } from 'react-native';
-import routes from '../navigation/routes';
-import {logout} from '../api/auth';
-import Images from '../utils/Images';
 import ProductDetailDialog from '../components/ProductDetailDialog';
 import ProductImageDialog from '../components/ProductImageDialog';
 import DialogManager, {DialogComponent, DialogContent, ScaleAnimation, SlideAnimation} from "react-native-dialog-component";
-import Colors from '../utils/Colors';
-import Fonts from "../utils/Fonts";
+import {
+	GET_INGEST_SERVER_DETAILS,
+} from '../api/queries';
+import {useLazyQuery} from '@apollo/client'
+import {IngestServerDetailsRequest} from "../models/IngestServerDetailsRequest";
+import {IngestServerDetailsResponse} from "../models/IngestServerDetailsResponse";
+import NavigationButton from "../components/NavigationButton";
+import R from "../r/R";
+import RightMenu from "../components/RightMenu";
+import {NodePlayerView} from 'react-native-nodemediaclient';
+import routes from "../navigation/routes";
 
 
-const NavigationButton = ({onPress, iconSource, active}) => (
-	<TouchableOpacity
-		onPress={onPress}
-		style={[styles.navButton, active ? styles.navButtonActive : undefined]}>
-		<Image source={iconSource} style={styles.navButtonImg}/>
-	</TouchableOpacity>
-);
-
-
-export default function HomeScreen({navigation}) {
+export default function HomeScreen({navigation, route: {params: {event, shop}}}) {
 
 	const [isLeftMenuActive, setIsLeftMenuActive] = useState(false);
+	const [getIngestServerDetails, ingestServerDetailsResponse] = useLazyQuery<IngestServerDetailsResponse, IngestServerDetailsRequest>(GET_INGEST_SERVER_DETAILS);
+	const [getIngestServer, setIngestServer] = useState(null);
 
+
+	useEffect(() => {
+		getIngestServerDetails({variables: {shopId: shop._id, eventId: event._id}});
+	}, []);
+
+
+	useEffect(() => {
+		console.log(ingestServerDetailsResponse);
+		if (ingestServerDetailsResponse.data && ingestServerDetailsResponse.data.getIngestServerDetails) {
+			setIngestServer(ingestServerDetailsResponse.data.getIngestServerDetails);
+		}
+	}, [ingestServerDetailsResponse])
+
+	const goToShoppingScreen = () => {
+		navigation.navigate(routes.SHOPPING_CART);
+	}
 
 	useLayoutEffect(() => {
 		navigation.setOptions({
@@ -49,19 +65,19 @@ export default function HomeScreen({navigation}) {
 					onPress={() => {
 						setIsLeftMenuActive(!isLeftMenuActive);
 					}}
-					iconSource={Images.MENU_ICON}
+					iconSource={R.Images.MENU_ICON}
 					active={isLeftMenuActive}
 				/>
 			),
 			headerTitle: () => (
 				<View>
-					<Text style={styles.navTitle}> Order #100</Text>
+					<Text style={styles.navTitle}> {event.title}</Text>
 				</View>
 			),
 			headerRight: () => (
-				<TouchableOpacity style={styles.cartIconContainer}>
+				<TouchableOpacity onPress={goToShoppingScreen} style={styles.cartIconContainer}>
 					<View style={styles.cartIconWrapper}>
-						<Image source={Images.CART_ICON} style={styles.cartIcon}/>
+						<Image source={R.Images.CART_ICON} style={styles.cartIcon}/>
 					</View>
 					<View style={styles.cartTitleWrapper}>
 						<Text style={styles.cartTitle}> 3</Text>
@@ -71,16 +87,6 @@ export default function HomeScreen({navigation}) {
 		});
 	}, [navigation, isLeftMenuActive]);
 
-
-	const handleLogout = () => {
-		const completion = () => {
-			navigation.replace(routes.LOGIN)
-		}
-
-		logout()
-			.then(completion)
-			.catch(completion)
-	}
 
 	const showDetailDialog = () => {
 		let config = {
@@ -117,47 +123,63 @@ export default function HomeScreen({navigation}) {
 	}
 
 	return (
-		<SafeAreaView style={{flex: 1, backgroundColor: Colors.NAV_COLOR}}>
-			<View style={styles.container}>
-
+		<SafeAreaView style={{flex: 1, backgroundColor: R.Colors.NAV_COLOR}}>
+			<TouchableWithoutFeedback
+				onPress={() => {
+					setIsLeftMenuActive(false);
+				}}>
 				<View style={styles.container}>
-					<Image source={Images.PLACE_HOLDER_IMAGE} style={styles.mainImage}/>
-				</View>
+					{isLeftMenuActive && (
+						<RightMenu navigation={navigation}/>
+					)}
 
-				<View style={styles.bottomBar}>
+					<View style={styles.container}>
+						{/*<Image source={R.Images.PLACE_HOLDER_IMAGE} style={styles.mainImage}/>*/}
+						<NodePlayerView
+							style={styles.mainImage}
+							inputUrl={getIngestServer?.outputUrl}
+							scaleMode={"ScaleAspectFit"}
+							bufferTime={300}
+							maxBufferTime={1000}
+							autoplay={true}
+						/>
+					</View>
 
-					<View style={styles.bottomBarLeft}>
+					<View style={styles.bottomBar}>
 
-						<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showImagesDialog()}>
+						<View style={styles.bottomBarLeft}>
+
+							<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showImagesDialog()}>
+								<View style={styles.cartIconContainer}>
+									<View style={styles.cartIconWrapper}>
+										<Image source={R.Images.IMAGE_ICON} style={styles.cartIcon}/>
+									</View>
+								</View>
+							</TouchableWithoutFeedback>
+
+							<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showDetailDialog()}>
+								<View style={styles.cartIconWrapper}>
+									<Image source={R.Images.INFO_ICON} style={styles.cartIcon}/>
+								</View>
+							</TouchableWithoutFeedback>
+
+						</View>
+
+						<View style={styles.BottomBarRight}>
+							<Text style={styles.BottomBarRightText}>$620.00</Text>
+
 							<View style={styles.cartIconContainer}>
 								<View style={styles.cartIconWrapper}>
-									<Image source={Images.IMAGE_ICON} style={styles.cartIcon}/>
+									<Image source={R.Images.BUY_ICON} style={styles.cartIcon}/>
 								</View>
 							</View>
-						</TouchableWithoutFeedback>
-
-						<TouchableWithoutFeedback style={styles.cartIconContainer} onPress={() => showDetailDialog()}>
-							<View style={styles.cartIconWrapper}>
-								<Image source={Images.INFO_ICON} style={styles.cartIcon}/>
-							</View>
-						</TouchableWithoutFeedback>
-
-					</View>
-
-					<View style={styles.BottomBarRight}>
-						<Text style={styles.BottomBarRightText}>$620.00</Text>
-
-						<View style={styles.cartIconContainer}>
-							<View style={styles.cartIconWrapper}>
-								<Image source={Images.BUY_ICON} style={styles.cartIcon}/>
-							</View>
 						</View>
-					</View>
 
+
+					</View>
 
 				</View>
-
-			</View>
+			</TouchableWithoutFeedback>
 		</SafeAreaView>
 	);
 
@@ -165,7 +187,7 @@ export default function HomeScreen({navigation}) {
 
 const styles = StyleSheet.create({
 	navBar: {
-		backgroundColor: Colors.NAV_COLOR,
+		backgroundColor: R.Colors.NAV_COLOR,
 		height: 45,
 		display: 'flex',
 		flexDirection: 'row',
@@ -179,9 +201,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	navTitle: {
-		fontFamily: Fonts.BARLOW_LIGHT,
+		fontFamily: R.Fonts.BARLOW_LIGHT,
 		fontSize: 18,
-		color: Colors.WHITE,
+		color: R.Colors.WHITE,
 	},
 	menuIcon: {
 		height: 16,
@@ -195,7 +217,7 @@ const styles = StyleSheet.create({
 		marginRight: 5,
 	},
 	cartIconWrapper: {
-		backgroundColor: Colors.WHITE,
+		backgroundColor: R.Colors.WHITE,
 		height: 30,
 		width: 30,
 		borderRadius: 40,
@@ -212,9 +234,9 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		left: 0,
 		bottom: 0,
-		backgroundColor: Colors.WHITE,
+		backgroundColor: R.Colors.WHITE,
 		borderRadius: 40,
-		borderColor: Colors.NAV_COLOR,
+		borderColor: R.Colors.NAV_COLOR,
 		borderWidth: 2,
 		width: 19,
 		height: 19,
@@ -222,7 +244,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	cartTitle: {
-		fontFamily: Fonts.BARLOW_LIGHT,
+		fontFamily: R.Fonts.BARLOW_LIGHT,
 		fontSize: 12,
 		padding: 0,
 		marginLeft: -3,
@@ -236,22 +258,8 @@ const styles = StyleSheet.create({
 		width: '100%',
 		flex: 1,
 	},
-	menu: {
-		width: '100%',
-		backgroundColor: '#BA1F5C',
-		position: 'absolute',
-		top: 0,
-		left: 0,
-	},
-	bottomMenu: {
-		width: '100%',
-		backgroundColor: '#BA1F5C',
-		position: 'absolute',
-		bottom: 0,
-		left: 0,
-	},
 	bottomBar: {
-		backgroundColor: Colors.NAV_COLOR,
+		backgroundColor: R.Colors.NAV_COLOR,
 		height: 45,
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -262,7 +270,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 10,
 	},
 	BottomBarRight: {
-		backgroundColor: Colors.BOTTOM_BAR_COLOR,
+		backgroundColor: R.Colors.BOTTOM_BAR_COLOR,
 		height: '100%',
 		display: 'flex',
 		flex: 1,
@@ -270,19 +278,10 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	BottomBarRightText: {
-		fontFamily: Fonts.BARLOW_LIGHT,
+		fontFamily: R.Fonts.BARLOW_LIGHT,
 		flex: 1,
-		color: Colors.WHITE,
+		color: R.Colors.WHITE,
 		fontSize: 17,
 		marginHorizontal: 20,
-	},
-	navButton: {
-		width: 45,
-		height: 45,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	navButtonActive: {
-		backgroundColor: '#BA1F5C',
 	},
 });
