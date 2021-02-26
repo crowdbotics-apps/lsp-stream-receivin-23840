@@ -48,7 +48,7 @@ export default function Streams({navigation, route: {params: {shop}}}) {
 	}, [eventsResponse])
 
 	const goToEvent = (event) => {
-		if (moment(event.startDate).isAfter(moment())) {
+		if (moment(event.startDate).isBefore(moment())) {
 			navigation.navigate(routes.HOME, {event, shop});
 		}
 	}
@@ -84,7 +84,7 @@ export default function Streams({navigation, route: {params: {shop}}}) {
 
 					<View style={styles.textStatusWrapper}>
 						<Text style={styles.textStatusTitle}>Status</Text>
-						<Text style={styles.textStatus}>{moment(item.startDate).isBefore(moment()) ? 'Upcoming' : 'LIVE'}</Text>
+						<Text style={styles.textStatus}>{moment(item.startDate).isBefore(moment()) ? 'LIVE' : 'Upcoming'}</Text>
 					</View>
 				</View>
 			</TouchableOpacity>

@@ -50,17 +50,15 @@ export const GET_INGEST_SERVER_DETAILS = gql`
     }
   }`
 
-export const GET_SHOPS = gql`{ 
-	query shops {
-		shops{
-      nodes{
+export const GET_SHOPS = gql`{
+    shops {
+      nodes {
         name
         _id
-        shopLogoUrls{
+        shopLogoUrls {
           primaryShopLogoUrl
         }
       }
-    } 
-	} 
+    }
 }`
 
