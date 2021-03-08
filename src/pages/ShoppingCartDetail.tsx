@@ -25,10 +25,12 @@ import R from "../r/R";
 import NavigationButton from "../components/NavigationButton";
 import {StackScreenProps} from "@react-navigation/stack";
 import RightMenu from "../components/RightMenu";
+import CartTabBar from "../components/CartTabBar";
 
-export default function ShoppingCart({navigation}: StackScreenProps<{ Profile: any }>) {
+export default function ShoppingCartDetail({navigation}: StackScreenProps<{ Profile: any }>) {
 
 	const [isLeftMenuActive, setIsLeftMenuActive] = useState(false);
+	const [tabPosition, setTabPosition] = useState(0);
 
 	const items = [{}, {}, {}];
 
@@ -57,10 +59,6 @@ export default function ShoppingCart({navigation}: StackScreenProps<{ Profile: a
 		});
 	}, [navigation, isLeftMenuActive]);
 
-	const goToShoppingCartDetail = () => {
-		navigation.navigate(routes.SHOPPING_CART_DETAIL);
-	}
-
 
 	return (
 		<SafeAreaView style={{flex: 1, backgroundColor: R.Colors.BACKGROUND_SECONDARY}}>
@@ -74,14 +72,11 @@ export default function ShoppingCart({navigation}: StackScreenProps<{ Profile: a
 					)}
 					<View style={styles.container}>
 
-
-						<FlatList
-							data={items}
-							renderItem={({item}) => (
-								<CartItem/>
-							)}
-							keyExtractor={(item, index) => index.toString()}
-						/>
+						<CartTabBar
+							position={tabPosition}
+							onPress={(position) => {
+								setTabPosition(position);
+							}}/>
 
 					</View>
 
@@ -106,7 +101,6 @@ export default function ShoppingCart({navigation}: StackScreenProps<{ Profile: a
 						</View>
 
 						<TouchableHighlight
-							onPress={goToShoppingCartDetail}
 							style={styles.button}>
 							<Text style={styles.buttonText}>Secure Checkout</Text>
 						</TouchableHighlight>
