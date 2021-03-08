@@ -29,7 +29,7 @@ import routes from "../navigation/routes";
 import moment from "moment";
 
 // rename streams to events
-export default function Streams({navigation, route: {params: {shop}}}) {
+export default function Events({navigation, route: {params: {shop}}}) {
 
 	const [isLeftMenuActive, setIsLeftMenuActive] = useState(false);
 	const [getEventsList, setEventsList] = useState([]);

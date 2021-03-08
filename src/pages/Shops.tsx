@@ -51,7 +51,7 @@ export default function Shops({navigation}: StackScreenProps<{ Profile: any }>) 
 	}, [shopsResponse])
 
 	const goToShop = (shop) => {
-		navigation.navigate(routes.STREAMS, {shop: shop});
+		navigation.navigate(routes.EVENTS, {shop: shop});
 	}
 
 	useLayoutEffect(() => {

@@ -11,8 +11,9 @@ import Home from '../pages/Home';
 import routes from './routes';
 import R from "../r/R";
 import ShoppingCart from "../pages/ShoppingCart";
+import ShoppingCartDetail from "../pages/ShoppingCartDetail";
 import Shops from "../pages/Shops";
-import Streams from "../pages/Streams";
+import Events from "../pages/Events";
 
 const Stack = createStackNavigator();
 const theme = {
@@ -62,6 +63,18 @@ const RootNavigator = () => {
 					}}
 				/>
 				<Stack.Screen
+					name={routes.SHOPPING_CART_DETAIL}
+					component={ShoppingCartDetail}
+					options={{
+						title: 'Shopping Cart',
+						headerTintColor: '#fff',
+						headerStyle: {
+							borderBottomColor: R.Colors.NAV_COLOR,
+							backgroundColor: R.Colors.NAV_COLOR,
+						},
+					}}
+				/>
+				<Stack.Screen
 					name={routes.SHOPS}
 					component={Shops}
 					options={{
@@ -74,10 +87,10 @@ const RootNavigator = () => {
 					}}
 				/>
 				<Stack.Screen
-					name={routes.STREAMS}
-					component={Streams}
+					name={routes.EVENTS}
+					component={Events}
 					options={{
-						title: 'Streams',
+						title: 'Events',
 						headerTintColor: '#fff',
 						headerStyle: {
 							borderBottomColor: R.Colors.NAV_COLOR,
