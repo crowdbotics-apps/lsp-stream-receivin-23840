@@ -24,6 +24,7 @@ import ProductImageDialog from '../components/ProductImageDialog';
 import DialogManager, {DialogComponent, DialogContent, ScaleAnimation, SlideAnimation} from "react-native-dialog-component";
 import {
 	GET_INGEST_SERVER_DETAILS,
+	GET_PRODUCTS,
 } from '../api/queries';
 import {useLazyQuery} from '@apollo/client'
 import {IngestServerDetailsRequest} from "../models/IngestServerDetailsRequest";
@@ -39,11 +40,13 @@ export default function HomeScreen({navigation, route: {params: {event, shop}}})
 
 	const [isLeftMenuActive, setIsLeftMenuActive] = useState(false);
 	const [getIngestServerDetails, ingestServerDetailsResponse] = useLazyQuery<IngestServerDetailsResponse, IngestServerDetailsRequest>(GET_INGEST_SERVER_DETAILS);
+	const [getProducts, products] = useLazyQuery(GET_PRODUCTS);
 	const [getIngestServer, setIngestServer] = useState(null);
 
 
 	useEffect(() => {
 		getIngestServerDetails({variables: {shopId: shop._id, eventId: event._id}});
+		getProducts({variables: {shopId: shop._id, id: event._id}});
 	}, []);
 
 
@@ -53,6 +56,10 @@ export default function HomeScreen({navigation, route: {params: {event, shop}}})
 			setIngestServer(ingestServerDetailsResponse.data.getIngestServerDetails);
 		}
 	}, [ingestServerDetailsResponse])
+
+	useEffect(() => {
+		console.log('products', products);
+	}, [products])
 
 	const goToShoppingScreen = () => {
 		navigation.navigate(routes.SHOPPING_CART);
