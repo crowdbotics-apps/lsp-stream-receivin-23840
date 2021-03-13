@@ -22,9 +22,17 @@ const RightMenu = ({navigation}: StackScreenProps<{ Profile: any }>) => {
 		<View style={[styles.menu]}>
 			<MenuItem
 				onPress={() => {
+					navigation.navigate(R.Routes.SHOPS);
 				}}
 				iconSource={R.Images.SHOP_ICON}
 				label={'Shops'}
+			/>
+			<MenuItem
+				onPress={() => {
+					navigation.navigate(R.Routes.ORDERS);
+				}}
+				iconSource={R.Images.ORDER_ICON}
+				label={'Orders'}
 			/>
 			<MenuItem
 				onPress={() => {

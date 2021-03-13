@@ -39,6 +39,11 @@ const styles = StyleSheet.create({
 		lineHeight: 40,
 		color: 'white',
 	},
+	menuImg: {
+		width: 34,
+		height: 34,
+		resizeMode: 'contain'
+	},
 	menuRowSeparator: {
 		backgroundColor: '#464646',
 		paddingLeft: 24,
