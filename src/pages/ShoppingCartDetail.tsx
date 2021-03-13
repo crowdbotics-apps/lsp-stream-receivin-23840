@@ -26,6 +26,7 @@ import NavigationButton from "../components/NavigationButton";
 import {StackScreenProps} from "@react-navigation/stack";
 import RightMenu from "../components/RightMenu";
 import CartTabBar from "../components/CartTabBar";
+import CartSubTabBar from "../components/CartSubTabBar";
 
 export default function ShoppingCartDetail({navigation}: StackScreenProps<{ Profile: any }>) {
 
@@ -72,38 +73,59 @@ export default function ShoppingCartDetail({navigation}: StackScreenProps<{ Prof
 					)}
 					<View style={styles.container}>
 
-						<CartTabBar
-							position={tabPosition}
-							onPress={(position) => {
-								setTabPosition(position);
-							}}/>
+						<View style={styles.priceContainer}>
+							<Text style={styles.orderTitle}>Order Summery</Text>
+							<View style={styles.spacer}/>
+							<View style={styles.orderWrapper}>
+								<Text style={styles.orderText}>Subtotal</Text>
+								<Text style={styles.orderText}>$695.00</Text>
+							</View>
+							<View style={styles.orderWrapper}>
+								<Text style={styles.orderText}>Shipping + handling</Text>
+								<Text style={styles.orderText}>$10.00</Text>
+							</View>
+							<View style={styles.orderWrapper}>
+								<Text style={styles.orderText}>Taxes</Text>
+								<Text style={styles.orderText}>$0.00</Text>
+							</View>
+							<View style={styles.orderWrapperTotal}>
+								<Text style={styles.orderTotal}>Total</Text>
+								<Text style={styles.orderTotal}>$705.00</Text>
+							</View>
 
-					</View>
-
-					<View style={styles.priceContainer}>
-						<Text style={styles.orderTitle}>Order Summery</Text>
-						<View style={styles.spacer}/>
-						<View style={styles.orderWrapper}>
-							<Text style={styles.orderText}>Subtotal</Text>
-							<Text style={styles.orderText}>$695.00</Text>
-						</View>
-						<View style={styles.orderWrapper}>
-							<Text style={styles.orderText}>Shipping + handling</Text>
-							<Text style={styles.orderText}>$10.00</Text>
-						</View>
-						<View style={styles.orderWrapper}>
-							<Text style={styles.orderText}>Taxes</Text>
-							<Text style={styles.orderText}>$0.00</Text>
-						</View>
-						<View style={styles.orderWrapperTotal}>
-							<Text style={styles.orderTotal}>Total</Text>
-							<Text style={styles.orderTotal}>$705.00</Text>
 						</View>
 
-						<TouchableHighlight
-							style={styles.button}>
-							<Text style={styles.buttonText}>Secure Checkout</Text>
-						</TouchableHighlight>
+						<View style={styles.contentContainer}>
+
+							<CartTabBar
+								position={tabPosition}
+								onPress={(position) => {
+									// setTabPosition(position);
+								}}/>
+
+							<CartSubTabBar
+								position={tabPosition}
+								onPress={(position) => {
+									// setTabPosition(position);
+								}}/>
+
+
+							<View style={styles.orderWrapper}>
+								<Text style={styles.orderText}>Deliver to</Text>
+							</View>
+							<View style={styles.orderWrapper}>
+								<Text style={styles.orderText}>No Address on file - </Text>
+								<Text style={styles.orderText}>add address</Text>
+							</View>
+
+							<TouchableHighlight
+								disabled
+								style={styles.button}>
+								<Text style={styles.buttonText}>Next</Text>
+							</TouchableHighlight>
+
+						</View>
+
 
 					</View>
 
@@ -118,32 +140,32 @@ export default function ShoppingCartDetail({navigation}: StackScreenProps<{ Prof
 const styles = StyleSheet.create({
 	orderTitle: {
 		color: R.Colors.TEXT,
-		fontSize: 21,
+		fontSize: 15,
 		fontFamily: R.Fonts.BARLOW_REGULAR,
 		fontWeight: '700',
 	},
 	spacer: {
-		height: 2,
+		height: 1,
 		backgroundColor: '#E2E2E2',
-		marginTop: 20,
+		marginTop: 14,
 		marginBottom: 5,
 	},
 	orderText: {
 		color: R.Colors.TEXT,
-		fontSize: 20,
+		fontSize: 14,
 		fontFamily: R.Fonts.BARLOW_REGULAR,
 		fontWeight: '700',
 		paddingTop: 5,
 	},
 	orderTotal: {
 		color: R.Colors.TEXT,
-		fontSize: 24,
+		fontSize: 16,
 		fontFamily: R.Fonts.BARLOW_REGULAR,
 		fontWeight: '700',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
-		marginTop: 20,
-		marginBottom: 20,
+		marginTop: 10,
+		marginBottom: 25,
 	},
 	orderWrapper: {
 		justifyContent: 'space-between',
@@ -155,9 +177,16 @@ const styles = StyleSheet.create({
 	},
 	priceContainer: {
 		backgroundColor: R.Colors.BACKGROUND_SECONDARY,
-		paddingRight: 30,
-		paddingLeft: 30,
+		paddingRight: 14,
+		paddingLeft: 14,
 		paddingTop: 25,
+	},
+	contentContainer: {
+		backgroundColor: R.Colors.BACKGROUND_SECONDARY,
+		paddingRight: 14,
+		paddingLeft: 14,
+		marginTop: 10,
+		flex: 1,
 	},
 	button: {
 		height: 50,

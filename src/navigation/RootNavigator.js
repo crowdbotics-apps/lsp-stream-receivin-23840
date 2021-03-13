@@ -14,6 +14,7 @@ import ShoppingCart from "../pages/ShoppingCart";
 import ShoppingCartDetail from "../pages/ShoppingCartDetail";
 import Shops from "../pages/Shops";
 import Events from "../pages/Events";
+import Orders from "../pages/Orders";
 
 const Stack = createStackNavigator();
 const theme = {
@@ -91,6 +92,18 @@ const RootNavigator = () => {
 					component={Events}
 					options={{
 						title: 'Events',
+						headerTintColor: '#fff',
+						headerStyle: {
+							borderBottomColor: R.Colors.NAV_COLOR,
+							backgroundColor: R.Colors.NAV_COLOR,
+						},
+					}}
+				/>
+				<Stack.Screen
+					name={routes.ORDERS}
+					component={Orders}
+					options={{
+						title: 'Orders',
 						headerTintColor: '#fff',
 						headerStyle: {
 							borderBottomColor: R.Colors.NAV_COLOR,

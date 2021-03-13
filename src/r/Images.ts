@@ -21,4 +21,5 @@ export default {
 	REMOVE_ICON: require('../../assets/images/remove.png'),
 	PLAY_ICON: require('../../assets/images/play_icon.png'),
 	SHOP_PLACE_HOLDER: require('../../assets/images/shop_place_holder.png'),
+	ORDER_ICON: require('../../assets/images/orders.png'),
 }

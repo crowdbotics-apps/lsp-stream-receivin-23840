@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Image, TouchableOpacity, Text, TouchableWithoutFeedback} from 'react-native';
 import R from '../r/R';
 
-const CartTabBar = ({
-	                    onPress = (position) => {
-	                    },
-	                    position = 1,
-                    }) => {
+const CartSubTabBar = ({
+	                       onPress = (position) => {
+	                       },
+	                       position = 1,
+                       }) => {
 
 
 	return (
@@ -15,32 +15,21 @@ const CartTabBar = ({
 				onPress={() => onPress(0)}
 				style={[styles.item0, position == 0 ? styles.item0Active : {}]}>
 				<Text style={position == 0 ? styles.textActive : styles.text}>
-					Shipping
-				</Text>
-			</TouchableOpacity>
-			<TouchableOpacity
-				onPress={() => onPress(1)}
-				style={[styles.item1,
-					position == 1 ? styles.item1Active : {},
-					position == 0 ? styles.item1LeftActive : {},
-					position == 2 ? styles.item1RightActive : {}
-				]}>
-				<Text style={position == 1 ? styles.textActive : styles.text}>
-					Billing
+					Delivery
 				</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => onPress(2)}
 				style={[styles.item2, position == 2 ? styles.item2Active : {}]}>
 				<Text style={position == 2 ? styles.textActive : styles.text}>
-					Confirmation
+					Local Pickup
 				</Text>
 			</TouchableOpacity>
 		</View>
 	);
 };
 
-export default CartTabBar;
+export default CartSubTabBar;
 
 const styles = StyleSheet.create({
 	container: {
@@ -61,9 +50,11 @@ const styles = StyleSheet.create({
 		borderTopLeftRadius: 10,
 		justifyContent: 'center',
 		alignItems: 'center',
+		backgroundColor: R.Colors.WHITE,
 	},
 	item0Active: {
 		borderColor: R.Colors.LIGHT_PINK,
+		borderRightWidth: 1,
 	},
 	item1: {
 		flex: 1,
@@ -72,9 +63,11 @@ const styles = StyleSheet.create({
 		borderColor: R.Colors.BORDER_COLOR,
 		justifyContent: 'center',
 		alignItems: 'center',
+		backgroundColor: R.Colors.WHITE,
 	},
 	item1Active: {
 		borderColor: R.Colors.LIGHT_PINK,
+		borderLeftWidth: 1,
 	},
 	item1LeftActive: {
 		borderLeftColor: R.Colors.LIGHT_PINK,
@@ -93,6 +86,7 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 10,
 		justifyContent: 'center',
 		alignItems: 'center',
+		backgroundColor: R.Colors.WHITE,
 	},
 	item2Active: {
 		borderColor: R.Colors.LIGHT_PINK,
