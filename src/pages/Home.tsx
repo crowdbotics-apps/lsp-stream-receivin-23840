@@ -40,13 +40,15 @@ export default function HomeScreen({navigation, route: {params: {event, shop}}})
 
 	const [isLeftMenuActive, setIsLeftMenuActive] = useState(false);
 	const [getIngestServerDetails, ingestServerDetailsResponse] = useLazyQuery<IngestServerDetailsResponse, IngestServerDetailsRequest>(GET_INGEST_SERVER_DETAILS);
-	const [getProducts, products] = useLazyQuery(GET_PRODUCTS);
+	const [getEventDetail, eventDetail] = useLazyQuery(GET_PRODUCTS);
 	const [getIngestServer, setIngestServer] = useState(null);
+	const [products, setProducts] = useState([]);
+	const [activeProduct, setActiveProduct] = useState({});
 
 
 	useEffect(() => {
 		getIngestServerDetails({variables: {shopId: shop._id, eventId: event._id}});
-		getProducts({variables: {shopId: shop._id, id: event._id}});
+		getEventDetail({variables: {shopId: shop._id, id: event._id}});
 	}, []);
 
 
@@ -58,8 +60,14 @@ export default function HomeScreen({navigation, route: {params: {event, shop}}})
 	}, [ingestServerDetailsResponse])
 
 	useEffect(() => {
-		console.log('products', products);
-	}, [products])
+		console.log('eventDetail', eventDetail);
+		if (eventDetail.data && eventDetail.data.liveSalesEvent && eventDetail.data.liveSalesEvent.products) {
+			setProducts(eventDetail.data.liveSalesEvent.products);
+			if (eventDetail.data.liveSalesEvent.products.length > 0) {
+				setActiveProduct(eventDetail.data.liveSalesEvent.products[0]);
+			}
+		}
+	}, [eventDetail])
 
 	const goToShoppingScreen = () => {
 		navigation.navigate(routes.SHOPPING_CART);
@@ -145,6 +153,7 @@ export default function HomeScreen({navigation, route: {params: {event, shop}}})
 						<NodePlayerView
 							style={styles.mainImage}
 							inputUrl={getIngestServer?.outputUrl}
+							// inputUrl={"rtmp://104.248.6.71:1935/live/out"}
 							scaleMode={"ScaleAspectFit"}
 							bufferTime={300}
 							maxBufferTime={1000}
@@ -173,7 +182,7 @@ export default function HomeScreen({navigation, route: {params: {event, shop}}})
 						</View>
 
 						<View style={styles.BottomBarRight}>
-							<Text style={styles.BottomBarRightText}>$620.00</Text>
+							<Text style={styles.BottomBarRightText}>{activeProduct?.pricing?.displayPrice}</Text>
 
 							<View style={styles.cartIconContainer}>
 								<View style={styles.cartIconWrapper}>

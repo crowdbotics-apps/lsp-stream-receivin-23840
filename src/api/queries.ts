@@ -63,7 +63,6 @@ export const GET_SHOPS = gql`{
 }`
 
 
-
 export const GET_PRODUCTS = gql`
   query LiveSalesEvent($id: ID!, $shopId: ID!) {
     liveSalesEvent(id: $id, shopId: $shopId) {
@@ -80,7 +79,9 @@ export const GET_PRODUCTS = gql`
         description
         isDeleted
         isVisible
-        media{
+        title
+        
+       	media{
           URLs{
             large
             medium
@@ -93,7 +94,7 @@ export const GET_PRODUCTS = gql`
           productId
           variantId
         }
-        metaDescription
+				 
         metafields{
           description
           key
@@ -102,15 +103,12 @@ export const GET_PRODUCTS = gql`
           value
           valueType
         }
+        
         originCountry
         pageTitle
         productType
         publishedAt
         publishedProductHash
-        shop{
-          _id
-          name
-        }
         shouldAppearInSitemap
         slug
         socialMetadata{
@@ -118,7 +116,6 @@ export const GET_PRODUCTS = gql`
           service
         }
         supportedFulfillmentTypes
-        tagIds
         tags{
           nodes{
             _id
@@ -128,6 +125,7 @@ export const GET_PRODUCTS = gql`
         }
         title
         updatedAt
+      
         variants{
           _id
           attributeLabel
@@ -139,51 +137,19 @@ export const GET_PRODUCTS = gql`
           isVisible
           length
           media{
-             URLs{
-            large
-            medium
-            original
-            small
-            thumbnail
-          }
-          _id
-          priority
-          productId
-          variantId
-        }
-        metafields{
-          description
-          key
-          namespace
-          scope
-          value
-          valueType
-        }
-        minOrderQuantity
-        optionTitle
-        options{
-          _id
-          attributeLabel
-          barcode
-          createdAt
-          height
-          index
-          isDeleted
-          isVisible
-          length
-          media{
             URLs{
-              large
-              medium
-              original
-              small
-              thumbnail
+	            large
+	            medium
+	            original
+	            small
+	            thumbnail
             }
-            _id
-            priority
-            productId
-            variantId
+	          _id
+	          priority
+	          productId
+	          variantId
           }
+				 
           metafields{
             description
             key
@@ -192,95 +158,109 @@ export const GET_PRODUCTS = gql`
             value
             valueType
           }
-          minOrderQuantity
-          optionTitle
-          sku
-          title
-          updatedAt
-          weight
-          width
-          pricing{
-            compareAtPrice{
-              amount
-
-              displayAmount
+          options{
+            _id
+            attributeLabel
+            barcode
+            createdAt
+            height
+            index
+            isDeleted
+            isVisible
+            length
+            media{
+              URLs{
+                large
+                medium
+                original
+                small
+                thumbnail
+              }
+              _id
+              priority
+              productId
+              variantId
             }
-		        currency{
-		          _id
-		          code
-		          decimal
-		          format
-		          rate
-		          scale
-		          symbol
-		          thousand
-		        }
-
+            metafields{
+              description
+              key
+              namespace
+              scope
+              value
+              valueType
+            }
+            minOrderQuantity
+            optionTitle
+            sku
+            title
+            updatedAt
+            weight
+            width
+            pricing{
+              compareAtPrice{
+                amount
+                displayAmount
+              }
+              currency{
+	              _id
+	              code
+	              decimal
+	              format
+	              rate
+	              scale
+	              symbol
+	              thousand
+              }
+        
+              displayPrice
+              maxPrice
+              minPrice
+              price
+            }
+            isTaxable
+            taxCode
+            taxDescription
+          }
+          
+	        originCountry
+	        sku
+	        title
+	        updatedAt
+	        weight
+	        width
+        
+	        pricing{
 	          displayPrice
 	          maxPrice
 	          minPrice
 	          price
-          }
-          isTaxable
-          taxCode
-          taxDescription
+	        }
+	        isTaxable
+	        taxCode
+	        taxDescription
         }
-        originCountry
-        sku
-        title
-        updatedAt
-        weight
-        width
+
+				vendor
         pricing{
           compareAtPrice{
-          amount
-
-          displayAmount
+            amount
+            displayAmount
           }
-	        currency{
-	          _id
-	          code
-	          decimal
-	          format
-	          rate
-	          scale
-	          symbol
-	          thousand
-	        }
-
+        
           displayPrice
           maxPrice
           minPrice
           price
         }
-        isTaxable
-        taxCode
-        taxDescription
+ 
+        
       }
-      vendor
-      pricing{
-        compareAtPrice{
-          amount
-
-          displayAmount
-        }
-        currency{
-          _id
-          code
-          decimal
-          format
-          rate
-          scale
-          symbol
-          thousand
-        }
-
-        displayPrice
-        maxPrice
-        minPrice
-        price
-      }
+      description
+      fbMessage
+      includedUrl
+      associatedSales
+      smsPush
+      
     }
-  }
-}`
+	}`
 
