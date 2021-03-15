@@ -26,12 +26,13 @@ import NavigationButton from "../components/NavigationButton";
 import {StackScreenProps} from "@react-navigation/stack";
 import RightMenu from "../components/RightMenu";
 import CartTabBar from "../components/CartTabBar";
-import CartSubTabBar from "../components/CartSubTabBar";
+import CartDeliveryTabBar from "../components/CartDeliveryTabBar";
 
 export default function ShoppingCartDetail({navigation}: StackScreenProps<{ Profile: any }>) {
 
 	const [isLeftMenuActive, setIsLeftMenuActive] = useState(false);
 	const [tabPosition, setTabPosition] = useState(0);
+	const [deliveryTabPosition, setDeliveryTabPosition] = useState(0);
 
 	const items = [{}, {}, {}];
 
@@ -103,24 +104,26 @@ export default function ShoppingCartDetail({navigation}: StackScreenProps<{ Prof
 									// setTabPosition(position);
 								}}/>
 
-							<CartSubTabBar
-								position={tabPosition}
+							<View style={styles.divider}/>
+							<Text style={styles.shipmentTitle}>Shipment Method</Text>
+							<CartDeliveryTabBar
+								position={deliveryTabPosition}
 								onPress={(position) => {
-									// setTabPosition(position);
+									setDeliveryTabPosition(position);
 								}}/>
 
 
-							<View style={styles.orderWrapper}>
-								<Text style={styles.orderText}>Deliver to</Text>
+							<View>
+								<Text style={styles.shipmentDeliver}>Deliver to</Text>
 							</View>
-							<View style={styles.orderWrapper}>
-								<Text style={styles.orderText}>No Address on file - </Text>
-								<Text style={styles.orderText}>add address</Text>
+							<View style={{flexDirection: 'row'}}>
+								<Text style={styles.shipmentNoAddress}>No Address on file - </Text>
+								<Text style={styles.shipmentAddAddress}>add address</Text>
 							</View>
 
 							<TouchableHighlight
 								disabled
-								style={styles.button}>
+								style={[styles.button, styles.buttonDisabled]}>
 								<Text style={styles.buttonText}>Next</Text>
 							</TouchableHighlight>
 
@@ -195,6 +198,9 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	buttonDisabled: {
+		opacity: 0.3,
 	},
 	buttonText: {
 		color: '#fff',
@@ -275,5 +281,34 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		top: 0,
 		left: 0,
+	},
+	divider: {
+		height: 1,
+		backgroundColor: R.Colors.DIVIDER,
+		marginTop: 14,
+		marginBottom: 10,
+	},
+	shipmentTitle: {
+		color: R.Colors.TEXT_SUB_TITLE,
+		fontSize: 18,
+		fontFamily: R.Fonts.BARLOW_BOLD,
+	},
+	shipmentDeliver: {
+		color: R.Colors.TEXT,
+		fontFamily: R.Fonts.BARLOW_BOLD,
+		fontSize: 18,
+		marginTop: 20,
+	},
+	shipmentNoAddress: {
+		color: R.Colors.TEXT,
+		fontFamily: R.Fonts.BARLOW_REGULAR,
+		fontSize: 16,
+		marginTop: 20,
+	},
+	shipmentAddAddress: {
+		color: R.Colors.LIGHT_PINK,
+		fontFamily: R.Fonts.BARLOW_BOLD,
+		fontSize: 16,
+		marginTop: 20,
 	},
 });

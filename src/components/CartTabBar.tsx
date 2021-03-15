@@ -3,7 +3,7 @@ import {StyleSheet, View, Image, TouchableOpacity, Text, TouchableWithoutFeedbac
 import R from '../r/R';
 
 const CartTabBar = ({
-	                    onPress = (position) => {
+	                    onPress = (position: number) => {
 	                    },
 	                    position = 1,
                     }) => {
@@ -98,12 +98,12 @@ const styles = StyleSheet.create({
 		borderColor: R.Colors.LIGHT_PINK,
 	},
 	text: {
-		fontSize: 16,
+		fontSize: 17,
 		fontFamily: R.Fonts.BARLOW_REGULAR,
 		color: R.Colors.TEXT,
 	},
 	textActive: {
-		fontSize: 16,
+		fontSize: 17,
 		color: R.Colors.LIGHT_PINK,
 		fontFamily: R.Fonts.BARLOW_BOLD,
 	},
