@@ -75,7 +75,8 @@ export default function Shops({navigation}: StackScreenProps<{ Profile: any }>) 
 					goToShop(item);
 				}}>
 				<View style={styles.itemWrapper}>
-					<Image source={{uri: item.shopLogoUrls?.primaryShopLogoUrl}} style={styles.itemImage}/>
+					{console.log(item.shopLogoUrls?.primaryShopLogoUrl)}
+					<Image source={item.shopLogoUrls?.primaryShopLogoUrl ? {uri: item.shopLogoUrls?.primaryShopLogoUrl} : R.Images.SHOP_PLACE_HOLDER} style={styles.itemImage}/>
 					<Text style={styles.itemText}>{item.name}</Text>
 					<Image source={R.Images.PLAY_ICON} style={styles.itemPlayIcon}/>
 				</View>

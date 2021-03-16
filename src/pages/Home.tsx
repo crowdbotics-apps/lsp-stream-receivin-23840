@@ -153,7 +153,7 @@ export default function HomeScreen({navigation, route: {params: {event, shop}}})
 						<NodePlayerView
 							style={styles.mainImage}
 							inputUrl={getIngestServer?.outputUrl}
-							// inputUrl={"rtmp://104.248.6.71:1935/live/out"}
+							// inputUrl={"rtmp://157.245.112.5:1935/live/out"}
 							scaleMode={"ScaleAspectFit"}
 							bufferTime={300}
 							maxBufferTime={1000}

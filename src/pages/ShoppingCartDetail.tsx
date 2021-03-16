@@ -27,12 +27,14 @@ import {StackScreenProps} from "@react-navigation/stack";
 import RightMenu from "../components/RightMenu";
 import CartTabBar from "../components/CartTabBar";
 import CartDeliveryTabBar from "../components/CartDeliveryTabBar";
+import TextInputCustom from "../components/TextInputCustom";
 
 export default function ShoppingCartDetail({navigation}: StackScreenProps<{ Profile: any }>) {
 
 	const [isLeftMenuActive, setIsLeftMenuActive] = useState(false);
 	const [tabPosition, setTabPosition] = useState(0);
 	const [deliveryTabPosition, setDeliveryTabPosition] = useState(0);
+	const [inputAddress, setInputAddress] = useState(false);
 
 	const items = [{}, {}, {}];
 
@@ -61,6 +63,9 @@ export default function ShoppingCartDetail({navigation}: StackScreenProps<{ Prof
 		});
 	}, [navigation, isLeftMenuActive]);
 
+	const addAddress = () => {
+		setInputAddress(!inputAddress);
+	};
 
 	return (
 		<SafeAreaView style={{flex: 1, backgroundColor: R.Colors.BACKGROUND_SECONDARY}}>
@@ -113,19 +118,49 @@ export default function ShoppingCartDetail({navigation}: StackScreenProps<{ Prof
 								}}/>
 
 
-							<View>
-								<Text style={styles.shipmentDeliver}>Deliver to</Text>
-							</View>
-							<View style={{flexDirection: 'row'}}>
-								<Text style={styles.shipmentNoAddress}>No Address on file - </Text>
-								<Text style={styles.shipmentAddAddress}>add address</Text>
-							</View>
+							{deliveryTabPosition == 0 ?
+								<>
+									<View>
+										<Text style={styles.shipmentDeliver}>Deliver to</Text>
+									</View>
+									{
+										inputAddress ?
+											<View>
+												<View style={{flexDirection: 'row'}}>
+													<TextInputCustom/>
+												</View>
 
-							<TouchableHighlight
-								disabled
-								style={[styles.button, styles.buttonDisabled]}>
-								<Text style={styles.buttonText}>Next</Text>
-							</TouchableHighlight>
+											</View>
+											:
+											<View>
+												<View style={{flexDirection: 'row'}}>
+													<Text style={styles.shipmentNoAddress}>No Address on file - </Text>
+													<TouchableOpacity onPress={addAddress}>
+														<Text style={styles.shipmentAddAddress}>add address</Text>
+													</TouchableOpacity>
+												</View>
+												<TouchableHighlight
+													disabled
+													style={[styles.button, styles.buttonDisabled]}>
+													<Text style={styles.buttonText}>Next</Text>
+												</TouchableHighlight>
+											</View>
+									}
+								</>
+								:
+								<>
+									<View>
+										<Text style={styles.shipmentDeliver}>Local Pickup</Text>
+									</View>
+
+									<TouchableHighlight
+										disabled
+										style={[styles.button]}>
+										<Text style={styles.buttonText}>Next</Text>
+									</TouchableHighlight>
+								</>
+							}
+
 
 						</View>
 

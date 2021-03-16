@@ -33,6 +33,7 @@ const RootNavigator = () => {
 	return (
 		<NavigationContainer theme={theme}>
 			<Stack.Navigator initialRouteName={routes.LOGIN}>
+				{/*<Stack.Navigator initialRouteName={routes.SHOPPING_CART_DETAIL}>*/}
 				<Stack.Screen
 					name={routes.HOME}
 					component={Home}

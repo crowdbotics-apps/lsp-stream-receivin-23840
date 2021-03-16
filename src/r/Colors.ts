@@ -4,6 +4,7 @@ export default {
 	DARK_PINK: '#9F0944',
 	WHITE: '#fff',
 	TEXT: '#464646',
+	INPUT_BORDER: '#E8E8E8',
 	TEXT_SUB_TITLE: '#CBCBCB',
 	DIVIDER: '#E2E2E2',
 	NAV_COLOR: '#515151',
